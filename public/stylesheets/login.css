@@ -1,0 +1,47 @@
+/* Ensure body takes full height and centers content */
+
+
+*{
+    font-size:18px;
+    font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+h1{
+    font-size:40px;
+}
+button{
+    font-size: 20px;
+    border-radius: 12px;
+    background-color: #ABFAA9;
+}
+body {
+    background-color: #DFD5A5;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertical center */
+  align-items: center;     /* horizontal center */
+}
+
+/* Wrap form and signup in a visible centered box */
+.box {
+    
+  border: 1px solid #ccc; /* optional, just to show box */
+  padding: 20px;
+  border-radius: 8px;
+   /* optional */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #FFCBDD;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* optional */
+  
+}
+.form form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centers everything horizontally */
+} 
+
