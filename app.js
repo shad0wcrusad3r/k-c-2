@@ -12,6 +12,7 @@ var expressSession = require('express-session')
 var loginRouter = require('./routes/login');
 var signupRouter = require('./routes/signup');
 var profileRouter = require('./routes/profile');
+var homeRouter = require('./routes/home');
 
 var app = express();
 
@@ -55,17 +56,8 @@ app.use(function(err, req, res, next) {
 });
 
 
-
-
-
-
-
-
-
-
 passport.serializeUser(usersRouter.serializeUser());
 passport.deserializeUser(usersRouter.deserializeUser())
-
 
 
 app.use('/', indexRouter);
@@ -73,6 +65,7 @@ app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
 app.use('/profile', profileRouter);
+app.use('/home', homeRouter);
 
 // app.use(function(req, res, next) {
 //   next(createError(404));
