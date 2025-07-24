@@ -13,16 +13,12 @@ router.get('/', function(req, res,next) {
   res.render('login');
 });
 
-router.post("/login-me",passport.authenticate("local",{
-  successRedirect:"/profile",
-  failureRedirect:"/"
-}),function(req,res){})
+router.post('/', passport.authenticate('local', {
+  successRedirect: '/profile',
+  failureRedirect: '/login',
+  failureFlash: 'Invalid username or password.'
+}));
 
-router.get('/logout',function(req,res,next){
-  req.logout(function (err) {
-    if(err){return next(err);}
-    res.redirect('/');
-  })
-})
+
 
 module.exports = router;

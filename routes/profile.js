@@ -11,5 +11,12 @@ function isLoggedIn(req,res,next){
   }
   res.redirect('/');
 }
+router.get('/logout', function(req, res) {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    req.flash('success', 'Successfully logged out.');
+    res.redirect('/');
+  });
+});
 
 module.exports = router;
