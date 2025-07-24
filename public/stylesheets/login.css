@@ -7,14 +7,32 @@
   font-weight: 500;
   font-style: normal;
 }
+
 h1{
-    font-size:25px;
-}
+    font-family: 'Playfair Display', serif;
+    font-weight: bold;
+    font-size: 26.5px;
+    color: #b03a58;
+  }
 button{
     font-size: 14px;
-    border-radius: 12px;
+    border: 2px solid #000;        /* uniform black border */
+    border-radius: 12px;           /* rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     background-color: #ABFAA9;
 }
+
+.signup-btn{
+  border: 2px solid #000;        /* uniform black border */
+  border-radius: 10px;           /* rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: skyblue;
+}
+
 body {
     background-color: #DFD5A5;
   margin: 0;
@@ -25,10 +43,9 @@ body {
   align-items: center;     /* horizontal center */
 }
 
-/* Wrap form and signup in a visible centered box */
 .box {
     
-  border: 1px solid #ccc; /* optional, just to show box */
+  border: 1px solid #ccc; 
   padding: 20px;
   border-radius: 8px;
    /* optional */
@@ -44,4 +61,10 @@ body {
   flex-direction: column;
   align-items: center; /* centers everything horizontally */
 } 
+
+.signup{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 

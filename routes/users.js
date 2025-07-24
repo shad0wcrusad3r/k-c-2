@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 
-mongoose.connect("mongodb://127.0.0.1:27017/kulkarni.catering");
+mongoose.connect("mongodb://127.0.0.1:27017/kulkarni-catering");
 
 const userSchema = mongoose.Schema({
   username:String,
