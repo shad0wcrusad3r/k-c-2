@@ -1,27 +1,24 @@
-/* Ensure body takes full height and centers content */
-
-
 *{
-    font-size:14px;
-    font-family: "Poppins", sans-serif;
+  font-size:14px;
+  font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-style: normal;
 }
 
 h1{
-    font-family: 'Playfair Display', serif;
-    font-weight: bold;
-    font-size: 26.5px;
-    color: #b03a58;
+  font-family: 'Playfair Display', serif;
+  font-weight: bold;
+  font-size: 26.5px;
+  color: #b03a58;
 }
 button{
-    font-size: 14px;
-    border: 2px solid #000;        /* uniform black border */
-    border-radius: 12px;           /* rounded corners */
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    background-color: #ABFAA9;
+  font-size: 14px;
+  border: 2px solid #000;        /* uniform black border */
+  border-radius: 12px;           /* rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #ABFAA9;
 }
 
 .login-btn{
@@ -34,7 +31,7 @@ button{
 }
 
 body {
-    background-color: #DFD5A5;
+  background-color: #DFD5A5;
   margin: 0;
   height: 100vh;
   display: flex;
