@@ -13,6 +13,7 @@ var loginRouter = require('./routes/login');
 var signupRouter = require('./routes/signup');
 var profileRouter = require('./routes/profile');
 var homeRouter = require('./routes/home');
+var checkoutRouter = require('./routes/checkout');
 
 var app = express();
 
@@ -66,6 +67,7 @@ app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
 app.use('/profile', profileRouter);
 app.use('/home', homeRouter);
+app.use('/checkout',checkoutRouter);
 
 // app.use(function(req, res, next) {
 //   next(createError(404));
