@@ -77,79 +77,144 @@ document.addEventListener("DOMContentLoaded", function () {
         tiffin: [
           {
             id: 1,
-            name: "South Indian Tiffin",
-            description: "Idli, sambar, coconut chutney with pickle",
-            price: 120,
+            name: "Idli",
+            description: "Steamed rice and lentil cakes, soft and fluffy, served with chutney and sambar",
+            price: 50,
             image:
-              "imglink",
+              "https://t3.ftcdn.net/jpg/01/61/13/66/360_F_161136674_NgVFcPtWfwLPY03NpJUrSiH9oDvma9Rn.jpg",
           },
           {
             id: 2,
-            name: "North Indian Tiffin",
-            description: "Roti, dal, sabzi, rice with papad",
-            price: 150,
+            name: "Dosa",
+            description: "Crispy fermented rice and lentil crepe, served with only chutney",
+            price: 45,
             image:
-              "imglink",
+              "https://t3.ftcdn.net/jpg/01/86/33/72/360_F_186337209_9rbcMLu3wGCDNaEoK1jO0aNzb0pv7Xs7.jpg",
           },
           {
             id: 3,
-            name: "Gujarati Thali",
-            description: "Complete Gujarati meal with sweets",
-            price: 180,
+            name: "Vada",
+            description: "Deep-fried savory lentil doughnuts, crispy outside and soft inside, served with chutney and sambar",
+            price: 40,
             image:
-              "imglink",
+              "https://t3.ftcdn.net/jpg/11/19/61/64/360_F_1119616479_alwaVyTmbhajvzhy09lr4zXJjucb16YT.jpg",
+          },
+
+          {
+            id: 4,
+            name: "Upma",
+            description: "Savory semolina porridge cooked with vegetables, mustard seeds, and curry leaves",
+            price: 40,
+            image:
+              "https://t3.ftcdn.net/jpg/04/09/19/10/360_F_409191045_hKZVAPBdUXGuuKhbmi2DbbEktKIY33yb.jpg",
+          },
+          {
+            id: 5,
+            name: "Poha",
+            description: "Flattened rice sautéed with onions, mustard seeds, turmeric, and peanuts for a light, flavorful dish",
+            price: 40,
+            image:
+              "https://t3.ftcdn.net/jpg/04/44/43/92/360_F_444439260_xQwTSr3cCyE144NbSIxrL15G4YwxgCnH.jpg",
+          },
+          {
+            id: 6,
+            name: "Paddu",
+            description: "Crispy-on-the-outside, soft-on-the-inside rice and lentil dumplings cooked in a special mould, served with chutney",
+            price: 45,
+            image:
+              "https://t3.ftcdn.net/jpg/13/03/54/26/360_F_1303542652_xNBbGskhH0CX5V1QPeLLwL5qmKxJyaWm.jpg",
+          },
+
+          {
+            id: 7,
+            name: "Dhokla",
+            description: "Steamed gram flour cake, soft and spongy, with mustard tempering",
+            price: 50,
+            image:
+              "https://t4.ftcdn.net/jpg/10/41/99/53/360_F_1041995329_Y948A29Hru2TXn8JgkWMwJmIVauyQ9jq.jpg",
+          },
+          {
+            id: 8,
+            name: "Pulav",
+            description: "Fragrant rice cooked with spices and mixed vegetables",
+            price: 50,
+            image:
+              "https://t4.ftcdn.net/jpg/02/92/92/59/360_F_292925962_xka6iNTlEW5ANZkpE5el3HP8WeWi0O5o.jpg",
           },
         ],
         meals: [
           {
-            id: 4,
-            name: "Chicken Biryani",
-            description: "Aromatic basmati rice with tender chicken",
-            price: 280,
+            id: 9,
+            name: "Full meals",
+            description: "Complete meal with roti(or chapati), spiced bhaji, rice, sambar, chutney, and curd",
+            price: 120,
             image:
-              "imglink",
-          },
-          {
-            id: 5,
-            name: "Paneer Butter Masala",
-            description: "Creamy paneer curry with naan and rice",
-            price: 220,
-            image:
-              "imglink",
-          },
-          {
-            id: 6,
-            name: "Fish Curry Meal",
-            description: "Spicy fish curry with rice and vegetables",
-            price: 250,
-            image:
-              "imglink",
+              "https://img.freepik.com/premium-photo/indian-thali-food-plate-served-with-vegetables-rice-roti_960396-351006.jpg",
           },
         ],
         snacks: [
+          
           {
-            id: 7,
-            name: "Samosa Chat",
-            description: "Crispy samosas with chutneys and yogurt",
-            price: 80,
-            image:
-              "imglink",
-          },
-          {
-            id: 8,
+            id: 10,
             name: "Pav Bhaji",
-            description: "Spicy vegetable curry with buttered pav",
-            price: 100,
+            description: "Buttery buns served with spicy mashed vegetable curry",
+            price: 60,
             image:
-              "imglink",
+              "https://t3.ftcdn.net/jpg/05/26/67/36/360_F_526673624_MWQkxo3etLNTQbyfJpeBhoRlF4jTOS8H.jpg",
           },
+
           {
-            id: 9,
-            name: "Dosa Combo",
-            description: "Crispy dosa with sambar and chutneys",
-            price: 90,
+            id: 11,
+            name: "Onion Pakoda",
+            description: "Crispy fritters made from sliced onions and gram flour served with chutney",
+            price: 40,
             image:
-              "imglink",
+              "https://t3.ftcdn.net/jpg/01/13/79/54/360_F_113795471_ukz1BnlzctUcMOapQY5cdI7WFtEd0zfl.jpg",
+          },
+
+          {
+            id: 12,
+            name: "Bonda Soup",
+            description: "Soft lentil fritters served in a lightly spiced moong dal soup",
+            price: 50,
+            image:
+              "https://i0.wp.com/blog.food-filment.com/wp-content/uploads/2015/12/img_5911-2.jpg?fit=1200%2C800&ssl=1",
+          },
+
+          {
+            id: 13,
+            name: "Mirchi",
+            description: "Deep-fried green chilies stuffed with spiced filling, coated in gram flour batter",
+            price: 50,
+            image:
+              "https://etvbharatimages.akamaized.net/etvbharat/prod-images/05-05-2025/1200-675-24095711-thumbnail-16x9-bajji.jpg",
+          },
+
+          {
+            id: 14,
+            name: "Girmit",
+            description: "Spicy puffed rice mix tossed with onions, tomatoes, and tamarind",
+            price: 45,
+            image:
+              "https://vegrecipesofkarnataka.com/assets/img/girmit/girmit-recipe14.jpg",
+          },
+
+          {
+            id: 15,
+            name: "Sabudana Vada",
+            description: "Crispy sago and potato patties, mildly spiced and deep-fried",
+            price: 40,
+            image:
+              "https://t4.ftcdn.net/jpg/12/94/53/55/360_F_1294535567_BwTnRxufHYcD9afbGVou5q0YGSWw3B7o.jpg",
+          },
+
+          {
+            id: 16,
+            name: "Samosa",
+            description: "Crispy pastry filled with spiced potato and peas",
+            price: 65,
+            image:
+              "https://t4.ftcdn.net/jpg/15/15/56/93/360_F_1515569353_OLObh6cpKVZ6hNmuZdvlU298U2XpBCaE.jpg",
           },
         ],
       };
