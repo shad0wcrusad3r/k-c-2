@@ -60,7 +60,6 @@ app.use(function(err, req, res, next) {
 passport.serializeUser(usersRouter.serializeUser());
 passport.deserializeUser(usersRouter.deserializeUser())
 
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
@@ -68,6 +67,9 @@ app.use('/signup', signupRouter);
 app.use('/profile', profileRouter);
 app.use('/home', homeRouter);
 app.use('/checkout',checkoutRouter);
+
+
+
 
 // app.use(function(req, res, next) {
 //   next(createError(404));

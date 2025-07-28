@@ -92,7 +92,7 @@ const cartData = {
 
   function continueShopping() {
     document.getElementById("successModal").classList.add("hidden");
-    window.location.href = "home.html";
+    window.location.href = "/home";
   }
 
   function goBack() {

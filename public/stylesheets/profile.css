@@ -213,6 +213,18 @@
         color: white;
       }
 
+      .logout-button {
+        background: transparent;
+        border: 2px solid #E74C3C;
+        color: #E74C3C;
+        transition: all 0.2s ease;
+      }
+
+      .logout-button:hover {
+        background: #E74C3C;
+        color: white;
+      }
+
       .header-blur {
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);

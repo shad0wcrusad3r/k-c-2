@@ -39,9 +39,9 @@ document.addEventListener("DOMContentLoaded", function () {
             // Small delay to allow menu to close before navigation
             setTimeout(() => {
             if (target === "profile") {
-                window.location.href = "profile.html";
+                window.location.href = "/profile";
             } else if (target === "checkout") {
-                window.location.href = "checkout.html";
+                window.location.href = "/checkout";
             }
             }, 100);
         });
@@ -414,6 +414,6 @@ document.addEventListener("DOMContentLoaded", function () {
     loadDishes("tiffin");
     updateCartCount();
     document.getElementById("cart-button").addEventListener("click", function () {
-    window.location.href = "checkout.html";
+    window.location.href = "/checkout";
   });
 }); 

@@ -84,15 +84,16 @@
         <form id="profileForm" class="space-y-6">
           <div class="input-container">
             <input
-              type="text"
-              id="nameField"
-              class="input-field h-14 px-4 rounded-lg"
-              placeholder=" "
-              autocapitalize="words"
-              maxlength="50"
-              autocomplete="name"
-            />
-            <label for="nameField" class="floating-label">Full Name</label>
+            type="text"
+            id="nameField"
+            class="input-field h-14 px-4 rounded-lg"
+            placeholder=" "
+            value="<%= username %>"
+            autocapitalize="words"
+            maxlength="50"
+            autocomplete="name"
+          />
+            <label for="nameField" class="floating-label">Username</label>
             <div class="error-message" id="nameError"></div>
           </div>
 
@@ -102,6 +103,7 @@
               id="phoneField"
               class="input-field h-14 px-4 rounded-lg"
               placeholder=" "
+              value="<%= phone %>"
               maxlength="14"
               autocomplete="tel"
             />
@@ -130,6 +132,19 @@
             >
               Clear Profile
             </button>
+
+            <br> <br>
+            
+
+            <a href="/profile/logout">
+              <button
+                type="button"
+                id="logoutButton"
+                class="logout-button w-full h-12 rounded-button font-semibold"
+              >
+                Logout
+              </button>
+            </a>
           </div>
         </form>
       </div>

@@ -2,7 +2,10 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', isLoggedIn, function(req, res, next) {
-  res.render('profile');
+  res.render('profile',{
+    username: req.user.username,
+    phone: req.user.phone
+  });
 });
 
 function isLoggedIn(req,res,next){
