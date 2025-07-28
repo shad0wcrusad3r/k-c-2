@@ -1,30 +1,37 @@
 var express = require('express');
 var router = express.Router();
 
-const userModel = require('./users')
+const User = require('../models/User');
 
 const passport=require('passport');
 const localStrategy=require("passport-local");
-passport.use(new localStrategy(userModel.authenticate()));
+
+passport.use(new localStrategy(User.authenticate()));
 
 router.get("/", function (req,res){
     res.render('signup')
 })
 
 router.post('/register',function(req,res){
-  var userdata=new userModel({
-    username:req.body.username,
-    phone:req.body.phone
-  });
+  const { username, phone, password } = req.body;
 
+  const userdata = new User({ username, phone });
 
-  userModel.register(userdata,req.body.password)
-  .then(function(registereduser){
-    passport.authenticate("local")(req,res,function(){
+  User.register(userdata, password, (err, registeredUser) => {
+    if (err) {
+      console.error("Signup error:", err);
+      return res.render('signup', { error: err.message });
+    }
+
+   // login the new user immediately
+    req.login(registeredUser, (err) => {
+      if (err) {
+        console.error(err);
+        return res.redirect('/login');
+      }
       res.redirect('/home');
-    })
-
-  })
-})
+    });
+  });
+});
 
 module.exports = router;

@@ -4,7 +4,14 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport')
+const User = require('./models/User');
 var flash = require('connect-flash')
+
+const LocalStrategy = require('passport-local').Strategy;
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -57,8 +64,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-passport.serializeUser(usersRouter.serializeUser());
-passport.deserializeUser(usersRouter.deserializeUser())
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

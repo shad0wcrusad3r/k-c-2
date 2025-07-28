@@ -1,4 +1,16 @@
- 
+      document.addEventListener("DOMContentLoaded", () => {
+      const phoneField = document.getElementById("phoneField");
+
+      phoneField.addEventListener("input", () => {
+        // keep only digits
+        let digits = phoneField.value.replace(/\D/g, "");
+        // limit to 10 digits
+        if (digits.length > 10) digits = digits.slice(0, 10);
+        phoneField.value = digits;
+      });
+      });
+
+      
       document.addEventListener("DOMContentLoaded", function () {
         // Navigation
         const backButton = document.getElementById("backButton");
