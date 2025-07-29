@@ -1,4 +1,51 @@
-document.addEventListener("DOMContentLoaded", function () {
+ async function fetchCartCount() {
+  try {
+    const res = await fetch('/cart/count');
+    const data = await res.json();
+    return data.count || 0;
+  } catch (err) {
+    console.error("Error fetching cart count:", err);
+    return 0;
+  }
+}
+
+      async function updateCart(dishId, name, price, image, quantity) {
+  try {
+    const res = await fetch('/cart/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dishId, name, price, image, quantity })
+    });
+    const data = await res.json();
+    if (data.success) {
+      updateCartCountDisplay(data.cartCount);
+    }
+  } catch (err) {
+    console.error("Failed to update cart:", err);
+  }
+}
+
+function updateCartCountDisplay(count) {
+  const cartCount = document.getElementById("cart-count");
+  if (count > 0) {
+    cartCount.textContent = count;
+    cartCount.classList.remove("hidden");
+  } else {
+    cartCount.classList.add("hidden");
+  }
+}
+
+
+document.addEventListener("DOMContentLoaded", async function () {
+
+        const resCart = await fetch('/cart/items');
+        const dataCart = await resCart.json();
+        dataCart.items.forEach(item => {
+          const display = document.querySelector(`.quantity-display[data-dish-id="${item.dishId}"]`);
+          if (display) display.textContent = item.quantity;
+        });
+        updateQuantityDisplays();
+
         const hamburger = document.getElementById("hamburger");
         const slideMenu = document.getElementById("slide-menu");
         const menuOverlay = document.getElementById("menu-overlay");
@@ -87,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
             id: 2,
             name: "Dosa",
             description: "Crispy fermented rice and lentil crepe, served with only chutney",
-            price: 45,
+            price: 50,
             image:
               "https://t3.ftcdn.net/jpg/01/86/33/72/360_F_186337209_9rbcMLu3wGCDNaEoK1jO0aNzb0pv7Xs7.jpg",
           },
@@ -120,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
             id: 6,
             name: "Paddu",
             description: "Crispy-on-the-outside, soft-on-the-inside rice and lentil dumplings cooked in a special mould, served with chutney",
-            price: 45,
+            price: 50,
             image:
               "https://t3.ftcdn.net/jpg/13/03/54/26/360_F_1303542652_xNBbGskhH0CX5V1QPeLLwL5qmKxJyaWm.jpg",
           },
@@ -158,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
             id: 10,
             name: "Pav Bhaji",
             description: "Buttery buns served with spicy mashed vegetable curry",
-            price: 60,
+            price: 80,
             image:
               "https://t3.ftcdn.net/jpg/05/26/67/36/360_F_526673624_MWQkxo3etLNTQbyfJpeBhoRlF4jTOS8H.jpg",
           },
@@ -185,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
             id: 13,
             name: "Mirchi",
             description: "Deep-fried green chilies stuffed with spiced filling, coated in gram flour batter",
-            price: 50,
+            price: 40,
             image:
               "https://etvbharatimages.akamaized.net/etvbharat/prod-images/05-05-2025/1200-675-24095711-thumbnail-16x9-bajji.jpg",
           },
@@ -194,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function () {
             id: 14,
             name: "Girmit",
             description: "Spicy puffed rice mix tossed with onions, tomatoes, and tamarind",
-            price: 45,
+            price: 50,
             image:
               "https://vegrecipesofkarnataka.com/assets/img/girmit/girmit-recipe14.jpg",
           },
@@ -257,7 +304,8 @@ document.addEventListener("DOMContentLoaded", function () {
       function updateQuantityDisplays() {
         document.querySelectorAll(".quantity-display").forEach((display) => {
           const dishId = display.dataset.dishId;
-          const quantity = (display.textContent = getQuantity(dishId));
+          const quantity = parseInt(display.textContent) || 0;
+
           const minusBtn = document.querySelector(
             `.quantity-btn.minus[data-dish-id="${dishId}"]`,
           );
@@ -280,124 +328,176 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         });
       }
+      // function attachQuantityListeners() {
+      //   let tempQuantities = {};
+      //   document.querySelectorAll(".quantity-btn").forEach((btn) => {
+      //     btn.addEventListener("click", function () {
+      //       if (this.disabled) return;
+      //       const dishId = this.dataset.dishId;
+      //       const isPlus = this.classList.contains("plus");
+      //       const display = document.querySelector(
+      //         `.quantity-display[data-dish-id="${dishId}"]`,
+      //       );
+      //       const currentQuantity = parseInt(display.textContent) || 0;
+      //       //const storedQuantity = getQuantity(dishId);
+      //       const dish = dishData[currentCategory].find(d => d.id == dishId);
+      //       const newQuantity = isPlus
+      //           ? Math.min(currentQuantity + 1, 20)
+      //           : Math.max(currentQuantity - 1, 0);
+
+      //         display.textContent = newQuantity;
+      //         tempQuantities[dishId] = newQuantity;
+
+      //         // Update backend cart
+      //         updateCart(dish.id, dish.name, dish.price, dish.image, newQuantity);
+
+      //         if (newQuantity > currentQuantity && isPlus) {
+      //           showSnackbar(`Added 1 ${dish.name} to cart`);
+      //         } else if (newQuantity < currentQuantity && !isPlus) {
+      //           showSnackbar(`Removed 1 ${dish.name} from cart`);
+      //         }
+
+      //         // Update button states
+      //         const minusBtn = document.querySelector(
+      //           `.quantity-btn.minus[data-dish-id="${dishId}"]`
+      //         );
+      //         const plusBtn = document.querySelector(
+      //           `.quantity-btn.plus[data-dish-id="${dishId}"]`
+      //         );
+      //         const addBtn = document.querySelector(
+      //           `.add-to-cart-btn[data-dish-id="${dishId}"]`
+      //         );
+
+      //         minusBtn.disabled = newQuantity <= 0;
+      //         plusBtn.disabled = newQuantity >= 20;
+
+      //         if (newQuantity > 0) {
+      //           addBtn.disabled = false;
+      //           addBtn.classList.remove("bg-gray-300", "text-gray-500");
+      //           addBtn.classList.add("bg-primary", "text-white");
+      //         } else {
+      //           addBtn.disabled = true;
+      //           addBtn.classList.remove("bg-primary", "text-white");
+      //           addBtn.classList.add("bg-gray-300", "text-gray-500");
+      //         }
+
+      //     });
+      //   });
+
       function attachQuantityListeners() {
-        let tempQuantities = {};
-        document.querySelectorAll(".quantity-btn").forEach((btn) => {
-          btn.addEventListener("click", function () {
-            if (this.disabled) return;
-            const dishId = this.dataset.dishId;
-            const isPlus = this.classList.contains("plus");
-            const display = document.querySelector(
-              `.quantity-display[data-dish-id="${dishId}"]`,
-            );
-            const currentQuantity = parseInt(display.textContent) || 0;
-            const storedQuantity = getQuantity(dishId);
-            this.innerHTML = '<div class="loading-spinner"></div>';
-            this.disabled = true;
-            setTimeout(() => {
-              const newQuantity = isPlus
-                ? Math.min(currentQuantity + 1, 20)
-                : Math.max(currentQuantity - 1, 0);
-              display.textContent = newQuantity;
-              tempQuantities[dishId] = newQuantity;
-              if (newQuantity <= storedQuantity) {
-                setQuantity(dishId, newQuantity);
-                updateCartCount();
-                if (!isPlus) {
-                  showSnackbar(`Removed 1 item from cart`);
-                }
-              }
-              const minusBtn = document.querySelector(
-                `.quantity-btn.minus[data-dish-id="${dishId}"]`,
-              );
-              const plusBtn = document.querySelector(
-                `.quantity-btn.plus[data-dish-id="${dishId}"]`,
-              );
-              const addBtn = document.querySelector(
-                `.add-to-cart-btn[data-dish-id="${dishId}"]`,
-              );
-              minusBtn.disabled = newQuantity <= 0;
-              plusBtn.disabled = newQuantity >= 20;
-              if (newQuantity > 0) {
-                addBtn.disabled = false;
-                addBtn.classList.remove("bg-gray-300", "text-gray-500");
-                addBtn.classList.add("bg-primary", "text-white");
-              } else {
-                addBtn.disabled = true;
-                addBtn.classList.remove("bg-primary", "text-white");
-                addBtn.classList.add("bg-gray-300", "text-gray-500");
-              }
-              this.innerHTML = isPlus
-                ? '<i class="ri-add-line text-sm"></i>'
-                : '<i class="ri-subtract-line text-sm"></i>';
-              this.disabled = false;
-              if (navigator.vibrate) {
-                navigator.vibrate(50);
-              }
-            }, 200);
-          });
-        });
-        document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
-          btn.addEventListener("click", function () {
-            if (this.disabled) return;
-            const dishId = this.dataset.dishId;
-            const quantity = tempQuantities[dishId] || 0;
-            const currentQuantity = getQuantity(dishId) || 0;
-            if (quantity > 0) {
-              if (quantity < currentQuantity) {
-                const diff = currentQuantity - quantity;
-                setQuantity(dishId, quantity);
-                showSnackbar(`Removed ${diff} item(s) from cart`);
-              } else {
-                const diff = quantity - currentQuantity;
-                setQuantity(dishId, quantity);
-                showSnackbar(`Added ${diff} item(s) to cart`);
-              }
-              updateCartCount();
-              document.getElementById("cart-button").classList.add("cart-bounce");
-              setTimeout(() => {
-                document
-                  .getElementById("cart-button")
-                  .classList.remove("cart-bounce");
-              }, 300);
-            }
-          });
-        });
+  const quantityButtons = document.querySelectorAll(".quantity-btn");
+
+  quantityButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      const dishId = this.dataset.dishId;
+      const display = document.querySelector(
+  `.quantity-display[data-dish-id="${dishId}"]`
+);
+
+      const isPlus = this.classList.contains("plus-btn");
+
+
+      let currentQuantity = parseInt(display.textContent) || 0;
+      let newQuantity = isPlus
+        ? Math.min(currentQuantity + 1, 20)
+        : Math.max(currentQuantity - 1, 0);
+
+      // update DOM
+      display.textContent = newQuantity;
+    
+      const addBtn = document.querySelector(
+  `.add-to-cart-btn[data-dish-id="${dishId}"]`
+);
+
+if (newQuantity > 0) {
+  addBtn.disabled = false; // enable button
+  addBtn.classList.remove("bg-gray-300", "text-gray-500"); // remove disabled styles
+  addBtn.classList.add("bg-primary", "text-white"); // make it look active
+} else {
+  addBtn.disabled = true; // disable button if no items
+  addBtn.classList.remove("bg-primary", "text-white");
+  addBtn.classList.add("bg-gray-300", "text-gray-500");
+}
+
+
+
+      // find dish info
+      const dish = dishData[currentCategory].find(d => d.id == dishId);
+
+      // call backend
+      updateCart(dish.id, dish.name, dish.price, dish.image, newQuantity);
+
+      // feedback message
+      if (newQuantity > currentQuantity && isPlus) {
+        showSnackbar(`Added 1 ${dish.name} to cart`);
+      } else if (newQuantity < currentQuantity && !isPlus) {
+        showSnackbar(`Removed 1 ${dish.name} from cart`);
       }
-      function getQuantity(dishId) {
-        try {
-          return parseInt(localStorage.getItem(`dish_${dishId}`) || "0");
-        } catch (e) {
-          return 0;
-        }
+
+      // toggle button states
+      const minusBtn = document.querySelector(
+        `.quantity-btn.minus[data-dish-id="${dishId}"]`
+      );
+      const plusBtn = document.querySelector(
+        `.quantity-btn.plus[data-dish-id="${dishId}"]`
+      );
+       addBtn = document.querySelector(
+        `.add-to-cart-btn[data-dish-id="${dishId}"]`
+      );
+
+      minusBtn.disabled = newQuantity <= 0;
+      plusBtn.disabled = newQuantity >= 20;
+
+      if (newQuantity > 0) {
+        addBtn.disabled = false;
+        addBtn.classList.remove("bg-gray-300", "text-gray-500");
+        addBtn.classList.add("bg-primary", "text-white");
+      } else {
+        addBtn.disabled = true;
+        addBtn.classList.remove("bg-primary", "text-white");
+        addBtn.classList.add("bg-gray-300", "text-gray-500");
       }
-      function setQuantity(dishId, quantity) {
-        try {
-          localStorage.setItem(`dish_${dishId}`, quantity.toString());
-        } catch (e) {
-          console.warn("LocalStorage not available");
-        }
-      }
-      function updateCartCount() {
-        const cartCount = document.getElementById("cart-count");
-        let totalItems = 0;
-        try {
-          for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith("dish_")) {
-              totalItems += parseInt(localStorage.getItem(key) || "0");
-            }
-          }
-        } catch (e) {
-          totalItems = 0;
-        }
-        if (totalItems > 0) {
-          cartCount.textContent = totalItems;
-          cartCount.classList.remove("hidden");
-        } else {
-          cartCount.classList.add("hidden");
-        }
-      }
+    });
+  });
+}
+
+
+
+        // document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
+        //   btn.addEventListener("click", function () {
+        //     if (this.disabled) return;
+        //     const dishId = this.dataset.dishId;
+        //     const dish = dishData[currentCategory].find(d => d.id == dishId);
+        //     const quantity = tempQuantities[dishId] || 0;
+
+        //     updateCart(dish.id, dish.name, dish.price, dish.image, quantity);
+
+        //     if (quantity > 0) {
+        //       showSnackbar(`${dish.name} quantity set to ${quantity}`);
+        //     }
+        //   });
+        // });
+      
+document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
+  btn.addEventListener("click", function () {
+    if (this.disabled) return;
+    const dishId = this.dataset.dishId;
+    const dish = dishData[currentCategory].find(d => d.id == dishId);
+  const qtyDisplay = document.querySelector(
+  `.quantity-display[data-dish-id="${dishId}"]`
+);
+
+    const quantity = parseInt(qtyDisplay.textContent) || 0;
+
+    updateCart(dish.id, dish.name, dish.price, dish.image, quantity);
+
+    if (quantity > 0) {
+      showSnackbar(`${dish.name} quantity set to ${quantity}`);
+    }
+  });
+});
+
+     
       function showSnackbar(message) {
         const snackbar = document.getElementById("snackbar");
         const snackbarText = document.getElementById("snackbar-text");
@@ -410,10 +510,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 1500);
       }
       // Change this at the bottom of the dish-management script
-    document.addEventListener("DOMContentLoaded", function () {
-    loadDishes("tiffin");
-    updateCartCount();
-    document.getElementById("cart-button").addEventListener("click", function () {
+    document.addEventListener("DOMContentLoaded", async function () {
+  loadDishes("tiffin");
+
+  try {
+    const res = await fetch('/cart/count');
+    const data = await res.json();
+    updateCartCountDisplay(data.count);
+  } catch {
+    updateCartCountDisplay(0);
+  }
+
+  document.getElementById("cart-button").addEventListener("click", function () {
     window.location.href = "/checkout";
   });
-}); 
+});

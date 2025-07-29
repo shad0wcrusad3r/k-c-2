@@ -1,8 +1,4 @@
-const cartData = {
-    pizza1: { name: "Margherita Pizza", price: 299, quantity: 2 },
-    salad1: { name: "Caesar Salad", price: 189, quantity: 1 },
-    pasta1: { name: "Pasta Carbonara", price: 349, quantity: 1 },
-  };
+
 
   function updateQuantity(itemId, change) {
     const item = cartData[itemId];
@@ -32,27 +28,31 @@ const cartData = {
   }
 
   function updatePricing() {
-    let subtotal = 0;
-    Object.values(cartData).forEach((item) => {
-      subtotal += item.price * item.quantity;
-    });
-    
-    const deliveryFee = 49;
-    const taxRate = 0.1043;
-    const tax = subtotal * taxRate;
-    const total = subtotal + deliveryFee + tax;
-    const { difference: roundOffDiff, displayTotal } = calculateRoundOff(total);
+  let subtotal = 0;
+  
+  document.querySelectorAll("#cartItems > div").forEach(el => {
+    const priceText = el.querySelector(".text-lg").textContent.replace("₹", "").trim();
+    const qtyText = el.querySelector(".w-8.text-center").textContent.trim();
+    const price = parseFloat(priceText);
+    const qty = parseInt(qtyText);
+    subtotal += price * qty;
+  });
 
-    // Update all price displays
-    document.getElementById("subtotal").textContent = `₹ ${subtotal.toFixed(2)}`;
-    document.getElementById("tax").textContent = `₹ ${tax.toFixed(2)}`;
-    document.getElementById("total").textContent = `₹ ${displayTotal}`;
-    document.getElementById("codAmount").textContent = `₹ ${displayTotal}`;
-    
-    // Update round-off displays using specific IDs
-    document.getElementById("orderSummaryRoundOff").textContent = `(+${roundOffDiff} round-off)`;
-    document.getElementById("codRoundOff").textContent = `(+${roundOffDiff} round-off)`;
-  }
+  const deliveryFee = 50;
+  const deliveryFee1 = 100;
+  const total = subtotal + deliveryFee;
+  const total1 = subtotal + deliveryFee1;
+  const { difference: roundOffDiff, displayTotal } = calculateRoundOff(total);
+
+  document.getElementById("subtotal").textContent = `₹ ${subtotal.toFixed(2)}`;
+  //document.getElementById("tax").textContent = `₹ ${tax.toFixed(2)}`;
+  document.getElementById("total").textContent = `₹ ${total}`;
+  document.getElementById("total1").textContent = `₹ ${total+50}`;
+  document.getElementById("codAmount").textContent = `₹ ${displayTotal}`;
+  document.getElementById("orderSummaryRoundOff").textContent = `(+${roundOffDiff} round-off)`;
+  document.getElementById("codRoundOff").textContent = `(+${roundOffDiff} round-off)`;
+}
+
 
   // Initialize pricing on load
   document.addEventListener('DOMContentLoaded', updatePricing);
@@ -80,15 +80,37 @@ const cartData = {
     }
   }
 
-  function confirmOrder() {
-    const loadingOverlay = document.getElementById("loadingOverlay");
-    const successModal = document.getElementById("successModal");
-    loadingOverlay.classList.remove("hidden");
-    setTimeout(() => {
-      loadingOverlay.classList.add("hidden");
-      successModal.classList.remove("hidden");
-    }, 2000);
+  
+  async function confirmOrder() {
+  const loadingOverlay = document.getElementById("loadingOverlay");
+  loadingOverlay.classList.remove("hidden");
+
+  const savedAddress = localStorage.getItem("deliveryAddress");
+  let body = {};
+  if (savedAddress) {
+    body.address = JSON.parse(savedAddress);
   }
+
+  try {
+    const res = await fetch("/checkout/confirm", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+
+    loadingOverlay.classList.add("hidden");
+
+    if (data.success) {
+      document.getElementById("successModal").classList.remove("hidden");
+    } else {
+      alert(data.error || "Failed to confirm order.");
+    }
+  } catch (err) {
+    loadingOverlay.classList.add("hidden");
+    alert("Error: " + err.message);
+  }
+}
 
   function continueShopping() {
     document.getElementById("successModal").classList.add("hidden");

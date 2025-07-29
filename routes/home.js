@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
+const Cart = require('../models/Cart');
 
-router.get('/', isLoggedIn, function(req, res, next) {
+router.get('/', isLoggedIn,async function(req, res, next) {
   //res.render('home');
   let phone = req.user.phone || "";
 
@@ -12,9 +13,20 @@ router.get('/', isLoggedIn, function(req, res, next) {
   if (phone.length > 10) {
     phone = phone.slice(-10);
   }
+
+  // Get cart items count
+  let cartCount = 0;
+  try {
+    const cart = await Cart.findOne({ user: req.user._id });
+    cartCount = cart ? cart.items.reduce((sum, i) => sum + i.quantity, 0) : 0;
+  } catch (err) {
+    console.error(err);
+  }
+
   res.render('home',{
     username: req.user.username,
-    phone
+    phone,
+    cartCount
   });
 });
 
@@ -24,5 +36,19 @@ function isLoggedIn(req,res,next){
   }
   res.redirect('/login');
 }
+
+router.get('/count', async (req, res) => {
+  if (!req.isAuthenticated()) return res.json({ count: 0 });
+
+  try {
+    const cart = await Cart.findOne({ user: req.user._id });
+    const count = cart ? cart.items.reduce((sum, i) => sum + i.quantity, 0) : 0;
+    res.json({ count });
+  } catch (err) {
+    console.error(err);
+    res.json({ count: 0 });
+  }
+});
+
 
 module.exports = router;
