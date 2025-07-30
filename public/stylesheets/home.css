@@ -64,3 +64,18 @@
       color: #f9fafb;
       }
       }
+
+.quantity-btn:hover:not(:disabled) {
+  background-color: #f3f4f6;
+  transform: scale(1.05);
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.add-to-cart-btn {
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.add-to-cart-btn:hover:not(:disabled) {
+  background-color: #ea580c;
+  transform: scale(1.05);
+}

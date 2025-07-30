@@ -1,4 +1,4 @@
-
+let locationVerified = false;
 
   function updateQuantity(itemId, change) {
     const item = cartData[itemId];
@@ -26,6 +26,20 @@
       displayTotal: roundedAmount.toFixed(2)
     };
   }
+  
+  function haversine(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Earth radius in km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) *
+    Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
 
   function updatePricing() {
   let subtotal = 0;
@@ -38,20 +52,56 @@
     subtotal += price * qty;
   });
 
-  const deliveryFee = 50;
-  const deliveryFee1 = 100;
+  //let deliveryFee = 50;
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(position => {
+      const userLat = position.coords.latitude;
+      const userLon = position.coords.longitude;
+
+      const storeLat = 15.441994671540293;
+      const storeLon = 74.99771993403606;
+
+      const distance = haversine(userLat, userLon, storeLat, storeLon);
+      const deliveryFee = distance <= 2.5 ? 50 : 100;
+
+      locationVerified = true;
+      document.getElementById("confirmBtn").disabled = false; // enable confirm
+      applyPricing(subtotal, deliveryFee, distance);
+    }, () => {
+      // Denied: lock checkout
+      locationVerified = false;
+      document.getElementById("confirmBtn").disabled = true;
+      document.getElementById("deliveryResult").innerText =
+        "⚠️ Location access required to proceed with checkout.";
+    });
+  } else {
+    locationVerified = false;
+    document.getElementById("confirmBtn").disabled = true;
+    document.getElementById("deliveryResult").innerText =
+      "⚠️ Your device does not support location services.";
+  }
+}
+
+function applyPricing(subtotal, deliveryFee, distance) {
   const total = subtotal + deliveryFee;
-  const total1 = subtotal + deliveryFee1;
+  console.log(deliveryFee)
   const { difference: roundOffDiff, displayTotal } = calculateRoundOff(total);
 
   document.getElementById("subtotal").textContent = `₹ ${subtotal.toFixed(2)}`;
-  //document.getElementById("tax").textContent = `₹ ${tax.toFixed(2)}`;
-  document.getElementById("total").textContent = `₹ ${total}`;
-  document.getElementById("total1").textContent = `₹ ${total+50}`;
+  document.getElementById("total").textContent = `₹ ${total.toFixed(2)}`;
   document.getElementById("codAmount").textContent = `₹ ${displayTotal}`;
-  document.getElementById("orderSummaryRoundOff").textContent = `(+${roundOffDiff} round-off)`;
-  document.getElementById("codRoundOff").textContent = `(+${roundOffDiff} round-off)`;
+  // document.getElementById("codRoundOff").textContent = `(+${roundOffDiff} round-off)`;
+
+    document.getElementById("deliveryFee").textContent = `₹ ${deliveryFee.toFixed(2)}`;
+
+    // Optional: show distance
+  if (distance !== null) {
+    document.getElementById("deliveryNote").textContent =
+      `You are ${distance.toFixed(2)} km away`;
+  }
 }
+
 
 
   // Initialize pricing on load
@@ -66,9 +116,7 @@
     try {
       const totalAmount = parseFloat(document.getElementById("total").textContent.replace('₹ ', ''));
       const upiLinks = {
-        gpay: `upi://pay?pa=merchant@gpay&pn=Store&am=${totalAmount}&cu=INR`,
-        phonepe: `phonepe://pay?pa=merchant@phonepe&pn=Store&am=${totalAmount}&cu=INR`,
-        paytm: `paytm://pay?pa=merchant@paytm&pn=Store&am=${totalAmount}&cu=INR`,
+        upi: `upi://pay?pa=8553970096@ybl&pn=KulkarniFoods&am=${totalAmount}&cu=INR`,
       };
       
       if (upiLinks[app]) {
@@ -82,6 +130,12 @@
 
   
   async function confirmOrder() {
+if (!locationVerified) {
+    alert("Please enable location access to continue with your order.");
+    updatePricing(); // try again
+    return;
+  }
+
   const loadingOverlay = document.getElementById("loadingOverlay");
   loadingOverlay.classList.remove("hidden");
 
@@ -222,18 +276,18 @@
   }
 
   // Initialize on page load
-  document.addEventListener("DOMContentLoaded", () => {
-    updatePricing(); // Ensure pricing is calculated initially
+  // document.addEventListener("DOMContentLoaded", () => {
+  //   updatePricing(); // Ensure pricing is calculated initially
     
-    const savedAddress = localStorage.getItem("deliveryAddress");
-    if (savedAddress) {
-      try {
-        addressData = JSON.parse(savedAddress);
-        document.getElementById("selectedType").textContent = addressData.type;
-        document.getElementById("savedAddress").innerHTML =
-          `${addressData.street}<br>${addressData.city}, ${addressData.pincode}`;
-      } catch (e) {
-        console.error("Error loading address:", e);
-      }
-    }
-  });
+  //   const savedAddress = localStorage.getItem("deliveryAddress");
+  //   if (savedAddress) {
+  //     try {
+  //       addressData = JSON.parse(savedAddress);
+  //       document.getElementById("selectedType").textContent = addressData.type;
+  //       document.getElementById("savedAddress").innerHTML =
+  //         `${addressData.street}<br>${addressData.city}, ${addressData.pincode}`;
+  //     } catch (e) {
+  //       console.error("Error loading address:", e);
+  //     }
+  //   }
+  // });

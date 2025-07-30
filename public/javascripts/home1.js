@@ -68,7 +68,10 @@ function updateQuantityDisplays() {
       `.add-to-cart-btn[data-dish-id="${dishId}"]`
     );
 
-    if (minusBtn) minusBtn.disabled = quantity <= 0;
+    if (minusBtn) {
+      const isInCart = display.dataset.isInCart === "true";
+      minusBtn.disabled = !isInCart || quantity <= 0;
+    }
     if (plusBtn) plusBtn.disabled = quantity >= 20;
     
     if (addBtn) {
@@ -94,14 +97,27 @@ function attachQuantityListeners() {
         `.quantity-display[data-dish-id="${dishId}"]`
       );
       
-      let currentQuantity = parseInt(display.textContent) || 0;
+      let currentQuantity = tempQuantities[dishId].quantity || 0;
       let newQuantity = isPlus 
         ? Math.min(currentQuantity + 1, 20)
         : Math.max(currentQuantity - 1, 0);
 
       // Update display
       display.textContent = newQuantity;
-      tempQuantities[dishId] = newQuantity;
+      tempQuantities[dishId].quantity = newQuantity;
+
+      const category = Object.keys(dishData).find(cat => 
+        dishData[cat].some(dish => dish.id == dishId)
+      );
+      const dish = dishData[category].find(d => d.id == dishId);
+
+      const isInCart = tempQuantities[dishId].isInCart;
+
+      if (!isPlus && isInCart) {
+        // If minus is clicked and the item is in the cart, update the cart directly
+        updateCart(dishId, dish.name, dish.price, dish.image, newQuantity);
+        showSnackbar(`Removed 1 ${dish.name} from cart`);
+      }
 
       // Update button states
       updateQuantityDisplays();
@@ -112,27 +128,19 @@ function attachQuantityListeners() {
     btn.addEventListener("click", async function() {
       if (this.disabled) return;
       const dishId = this.dataset.dishId;
-      const quantity = tempQuantities[dishId] || 0;
-
+      const quantity = tempQuantities[dishId].quantity || 0;
       const category = Object.keys(dishData).find(cat => 
         dishData[cat].some(dish => dish.id == dishId)
       );
       const dish = dishData[category].find(d => d.id == dishId);
-
+      
       // Update cart
       const success = await updateCart(dishId, dish.name, dish.price, dish.image, quantity);
-      
+
       if (success) {
-        showSnackbar(`${quantity} ${dish.name}(s) ${quantity > 0 ? 'added to' : 'removed from'} cart`);
-        // Enable/disable add to cart button based on quantity
-        this.disabled = quantity <= 0;
-        if (quantity > 0) {
-          this.classList.remove("bg-gray-300", "text-gray-500");
-          this.classList.add("bg-primary", "text-white");
-        } else {
-          this.classList.remove("bg-primary", "text-white");
-          this.classList.add("bg-gray-300", "text-gray-500");
-        }
+        showSnackbar(`${quantity} ${dish.name}(s) added to cart`);
+        tempQuantities[dishId].isInCart = true;
+        updateQuantityDisplays();
       }
     });
   });
@@ -153,22 +161,30 @@ document.addEventListener("DOMContentLoaded", async function() {
     updateCartCountDisplay(0);
   }
 
+  // Initialize tempQuantities for all dishes
+  for (const category in dishData) {
+    dishData[category].forEach(dish => {
+      tempQuantities[dish.id] = {
+        quantity: 0,
+        isInCart: false
+      };
+    });
+  }
+
   // Load cart items and update quantities
-  // Load cart items and update quantities
-try {
-  const resCart = await fetch('/cart/items');
-  const dataCart = await resCart.json();
-  dataCart.items.forEach(item => {
-    const display = document.querySelector(`.quantity-display[data-dish-id="${item.dishId}"]`);
-    if (display) {
-      display.textContent = item.quantity;
-      tempQuantities[item.dishId] = item.quantity;
-    }
-  });
-  updateQuantityDisplays();
-} catch (err) {
-  console.error("Error loading cart items:", err);
-}
+  try {
+    const resCart = await fetch('/cart/items');
+    const dataCart = await resCart.json();
+    dataCart.items.forEach(item => {
+      if (tempQuantities[item.dishId]) {
+        tempQuantities[item.dishId].quantity = item.quantity;
+        tempQuantities[item.dishId].isInCart = true;
+      }
+    });
+    loadDishes(currentCategory);
+  } catch (err) {
+    console.error("Error loading cart items:", err);
+  }
 
   // Cart button
   document.getElementById("cart-button").addEventListener("click", function() {
@@ -432,7 +448,17 @@ const dishGrid = document.getElementById("dish-grid");
 
   // Initialize temp quantities
   dishes.forEach(dish => {
-    tempQuantities[dish.id] = 0;
+    if (!tempQuantities[dish.id]) {
+      tempQuantities[dish.id] = {
+        quantity: 0,
+        isInCart: false
+      };
+    }
+    const display = document.querySelector(`.quantity-display[data-dish-id="${dish.id}"]`);
+    if (display) {
+      display.textContent = tempQuantities[dish.id].quantity;
+      display.dataset.isInCart = tempQuantities[dish.id].isInCart;
+    }
   });
 
   attachQuantityListeners();

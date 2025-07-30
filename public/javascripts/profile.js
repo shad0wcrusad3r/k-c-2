@@ -27,29 +27,42 @@
           fileInput.click();
         });
 
-        fileInput.addEventListener("change", function (e) {
-          const file = e.target.files[0];
-          if (file) {
-            if (file.size > 2000000) { // 2MB limit
-              showToast("Image size must be less than 2MB", true);
-              return;
-            }
+        fileInput.addEventListener("change", async function (e) {
+  const file = e.target.files[0];
+  if (file) {
+    if (file.size > 2000000) {
+      showToast("Image size must be less than 2MB", true);
+      return;
+    }
 
-            const reader = new FileReader();
-            reader.onload = function (e) {
-              profilePic.src = e.target.result;
-              localStorage.setItem("profilePicture", e.target.result);
-              showToast("Profile picture updated");
-            };
-            reader.readAsDataURL(file);
-          }
-        });
+    try {
+      const formData = new FormData();
+      formData.append('profilePicture', file);
+      
+      const response = await fetch('/profile/upload-picture', {
+        method: 'POST',
+        body: formData
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to upload picture");
+      }
+      
+      profilePic.src = data.imageUrl;
+      showToast("Profile picture updated");
+    } catch (error) {
+      showToast(error.message, true);
+    }
+  }
+});
 
-        // Load saved picture if exists
-        const savedPicture = localStorage.getItem("profilePicture");
-        if (savedPicture) {
-          profilePic.src = savedPicture;
-        }
+        // // Load saved picture if exists
+        // const savedPicture = localStorage.getItem("profilePicture");
+        // if (savedPicture) {
+        //   profilePic.src = savedPicture;
+        // }
 
         // Form Validation
         const nameField = document.getElementById("nameField");
@@ -125,8 +138,8 @@
         });
 
         // Load saved data if exists
-        const savedName = localStorage.getItem("profileName");
-        const savedPhone = localStorage.getItem("profilePhone");
+        // const savedName = localStorage.getItem("profileName");
+        // const savedPhone = localStorage.getItem("profilePhone");
 
         if (savedName) {
           nameField.value = savedName;
@@ -145,29 +158,39 @@
         const loadingSpinner = document.getElementById("loadingSpinner");
         let previousData = {};
 
-        profileForm.addEventListener("submit", function (e) {
+        profileForm.addEventListener("submit", async function (e) {
           e.preventDefault();
-
-          previousData = {
-            name: localStorage.getItem("profileName") || "",
-            phone: localStorage.getItem("profilePhone") || "",
-            picture: localStorage.getItem("profilePicture") || ""
-          };
 
           saveText.classList.add("hidden");
           loadingSpinner.classList.remove("hidden");
           saveButton.disabled = true;
 
-          setTimeout(() => {
-            localStorage.setItem("profileName", nameField.value);
-            localStorage.setItem("profilePhone", phoneField.value);
+          try {
+            const response = await fetch('/profile/update', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                username: nameField.value,
+                phone: phoneField.value.replace(/\D/g, "")
+              })
+            });
 
+            const data = await response.json();
+            
+            if (!response.ok) {
+              throw new Error(data.error || "Failed to update profile");
+            }
+
+            showToast("Profile updated successfully!");
+          } catch (error) {
+            showToast(error.message, true);
+          } finally {
             saveText.classList.remove("hidden");
             loadingSpinner.classList.add("hidden");
-            saveButton.disabled = false;
-
-            showToast("Profile saved successfully!");
-          }, 1000);
+            checkFormValidity();
+          }
         });
 
         // Clear Profile
@@ -185,9 +208,9 @@
         });
 
         confirmClear.addEventListener("click", function () {
-          localStorage.removeItem("profileName");
-          localStorage.removeItem("profilePhone");
-          localStorage.removeItem("profilePicture");
+          // localStorage.removeItem("profileName");
+          // localStorage.removeItem("profilePhone");
+          // localStorage.removeItem("profilePicture");
 
           nameField.value = "";
           phoneField.value = "";

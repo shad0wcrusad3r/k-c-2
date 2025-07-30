@@ -66,10 +66,11 @@
           <div class="profile-pic-container">
             <img
               id="profilePic"
-              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Ccircle cx='60' cy='60' r='60' fill='%23333'/%3E%3Ccircle cx='60' cy='45' r='20' fill='%23666'/%3E%3Cpath d='M20 100c0-22 18-40 40-40s40 18 40 40' fill='%23666'/%3E%3C/svg%3E"
+              src="<%= user.profilePicture || 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\' viewBox=\'0 0 120 120\'%3E%3Ccircle cx=\'60\' cy=\'60\' r=\'60\' fill=\'%23121212\'/%3E%3Ccircle cx=\'60\' cy=\'45\' r=\'20\' fill=\'%23666\'/%3E%3Cpath d=\'M20 100c0-22 18-40 40-40s40 18 40 40\' fill=\'%23666\'/%3E%3C/svg%3E' %>"
               alt="Profile Picture"
               class="profile-pic"
             />
+
             <div
               class="upload-overlay"
               id="uploadButton"
@@ -88,12 +89,14 @@
             id="nameField"
             class="input-field h-14 px-4 rounded-lg"
             placeholder=" "
-            value="<%= username %>"
+            value="<%= user.username %>"
             autocapitalize="words"
             maxlength="50"
             autocomplete="name"
+            readonly
+            disabled
           />
-            <label for="nameField" class="floating-label">Username</label>
+            <label for="nameField" class="floating-label">Name</label>
             <div class="error-message" id="nameError"></div>
           </div>
 
@@ -103,39 +106,17 @@
               id="phoneField"
               class="input-field h-14 px-4 rounded-lg"
               placeholder=" "
-              value="<%= phone %>"
+              value="<%= user.phone %>"
               maxlength="12"
               autocomplete="tel"
+              readonly
+              disabled
             />
             <label for="phoneField" class="floating-label">Phone Number</label>
             <div class="error-message" id="phoneError"></div>
           </div>
 
           <div class="space-y-4 pt-4">
-            <button
-              type="submit"
-              id="saveButton"
-              class="save-button w-full h-12 rounded-button text-white font-semibold"
-              disabled
-            >
-              <span id="saveText">Save Profile</span>
-              <div
-                id="loadingSpinner"
-                class="loading-spinner hidden mx-auto"
-              ></div>
-            </button>
-
-            <button
-              type="button"
-              id="clearButton"
-              class="clear-button w-full h-12 rounded-button font-semibold"
-            >
-              Clear Profile
-            </button>
-
-            <br> <br>
-            
-
             <a href="/profile/logout">
               <button
                 type="button"

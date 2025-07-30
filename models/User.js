@@ -7,7 +7,8 @@ const plm = require('passport-local-mongoose')
 const userSchema = mongoose.Schema({
   username:String,
   password:String,
-  phone:String
+  phone:String,
+  profilePicture: String
 });
 
 userSchema.plugin(plm)
