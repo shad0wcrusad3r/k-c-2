@@ -8,7 +8,8 @@ const userSchema = mongoose.Schema({
   username:String,
   password:String,
   phone:String,
-  profilePicture: String
+  profilePicture: String,
+  address: String
 });
 
 userSchema.plugin(plm)

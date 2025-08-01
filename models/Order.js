@@ -12,7 +12,9 @@ const orderSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   items: [orderItemSchema],
   totalAmount: Number,
-  status: { type: String, default: 'Pending' }, // Pending, Confirmed, Delivered
+  paymentMethod: { type: String, enum: ['cod', 'upi'], required: true },
+  status: { type: String, default: 'Pending' }, // Pending, Confirmed, Delivered, Rejected
+  clientResponse: { type: String, default: 'Pending' }, // Pending, Accepted, Rejected
   createdAt: { type: Date, default: Date.now }
 });
 

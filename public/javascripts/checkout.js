@@ -139,11 +139,17 @@ if (!locationVerified) {
   const loadingOverlay = document.getElementById("loadingOverlay");
   loadingOverlay.classList.remove("hidden");
 
-  const savedAddress = localStorage.getItem("deliveryAddress");
-  let body = {};
-  if (savedAddress) {
-    body.address = JSON.parse(savedAddress);
-  }
+  const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+
+if (!paymentMethod) {
+  alert("Please select a payment method.");
+  loadingOverlay.classList.add("hidden");
+  return;
+}
+
+let body = { paymentMethod };
+console.log("Payment method sent:", paymentMethod);
+
 
   try {
     const res = await fetch("/checkout/confirm", {
@@ -156,8 +162,9 @@ if (!locationVerified) {
     loadingOverlay.classList.add("hidden");
 
     if (data.success) {
-      document.getElementById("successModal").classList.remove("hidden");
+      waitForClientResponse(data.orderId); 
     } else {
+       loadingOverlay.classList.add("hidden");
       alert(data.error || "Failed to confirm order.");
     }
   } catch (err) {
@@ -165,6 +172,35 @@ if (!locationVerified) {
     alert("Error: " + err.message);
   }
 }
+
+async function waitForClientResponse(orderId) {
+  const res = await fetch(`/checkout/status/${orderId}?_=${Date.now()}`);
+  const loadingOverlay = document.getElementById("loadingOverlay");
+
+  const interval = setInterval(async () => {
+    try {
+      const res = await fetch(`/checkout/status/${orderId}?_=${Date.now()}`, {
+      credentials: "include"
+    });
+
+      const data = await res.json();
+
+      if (data.clientResponse !== 'Pending') {
+        clearInterval(interval);
+        loadingOverlay.classList.add("hidden");
+
+        if (data.clientResponse === 'Accepted') {
+          document.getElementById("successModal").classList.remove("hidden");
+        } else {
+          showRejectModal();
+        }
+      }
+    } catch (err) {
+      console.error("Error polling:", err);
+    }
+  }, 3000); // check every 3s
+}
+
 
   function continueShopping() {
     document.getElementById("successModal").classList.add("hidden");
@@ -274,20 +310,3 @@ if (!locationVerified) {
     
     localStorage.setItem("deliveryAddress", JSON.stringify(addressData));
   }
-
-  // Initialize on page load
-  // document.addEventListener("DOMContentLoaded", () => {
-  //   updatePricing(); // Ensure pricing is calculated initially
-    
-  //   const savedAddress = localStorage.getItem("deliveryAddress");
-  //   if (savedAddress) {
-  //     try {
-  //       addressData = JSON.parse(savedAddress);
-  //       document.getElementById("selectedType").textContent = addressData.type;
-  //       document.getElementById("savedAddress").innerHTML =
-  //         `${addressData.street}<br>${addressData.city}, ${addressData.pincode}`;
-  //     } catch (e) {
-  //       console.error("Error loading address:", e);
-  //     }
-  //   }
-  // });

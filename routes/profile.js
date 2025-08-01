@@ -21,31 +21,6 @@ router.get('/', isLoggedIn, function(req, res, next) {
       profilePicture: req.user.profilePicture 
     }
   });
-
-  router.post('/update', isLoggedIn, async function(req, res, next) {
-  try {
-    const { username, phone } = req.body;
-    
-    // Validate input
-    if (!username || username.length < 2) {
-      return res.status(400).json({ error: "Username must be at least 2 characters" });
-    }
-    
-    const cleanedPhone = phone.replace(/\D/g, "");
-    if (cleanedPhone.length !== 10) {
-      return res.status(400).json({ error: "Phone number must be 10 digits" });
-    }
-    
-    // Update user in database
-    req.user.username = username;
-    req.user.phone = cleanedPhone;
-    await req.user.save();
-    
-    res.json({ success: true, message: "Profile updated successfully" });
-  } catch (err) {
-    next(err);
-  }
-});
 });
 
 function isLoggedIn(req,res,next){

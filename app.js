@@ -6,6 +6,7 @@ var logger = require('morgan');
 var passport = require('passport')
 const User = require('./models/User');
 var flash = require('connect-flash')
+require('dotenv').config();
 
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -20,7 +21,10 @@ var loginRouter = require('./routes/login');
 var signupRouter = require('./routes/signup');
 var profileRouter = require('./routes/profile');
 var homeRouter = require('./routes/home');
-var checkoutRouter = require('./routes/checkout');var cartRouter = require('./routes/cart');
+var checkoutRouter = require('./routes/checkout');
+var cartRouter = require('./routes/cart');
+const telegramRoutes = require('./routes/telegram');
+
 
 var app = express();
 
@@ -52,6 +56,21 @@ app.use(function (req, res, next) {
   next();
 });
 
+
+
+
+
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/login', loginRouter);
+app.use('/signup', signupRouter);
+app.use('/profile', profileRouter);
+app.use('/home', homeRouter);
+app.use('/checkout',checkoutRouter);
+app.use('/cart', cartRouter);
+app.use('/telegram', telegramRoutes);
+
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
@@ -65,23 +84,9 @@ app.use(function(err, req, res, next) {
 
 
 
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/login', loginRouter);
-app.use('/signup', signupRouter);
-app.use('/profile', profileRouter);
-app.use('/home', homeRouter);
-app.use('/checkout',checkoutRouter);
-app.use('/cart', cartRouter);
-
-
-
-
-
-// app.use(function(req, res, next) {
-//   next(createError(404));
-// });
+app.use(function(req, res, next) {
+  next(createError(404));
+});
 
 
 
