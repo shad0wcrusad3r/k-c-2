@@ -337,21 +337,86 @@ const dishData = {
             image:
               "https://t4.ftcdn.net/jpg/02/92/92/59/360_F_292925962_xka6iNTlEW5ANZkpE5el3HP8WeWi0O5o.jpg",
           },
+
+          {
+            id: 9,
+            name: "Thatte Idli",
+            description: "Thatte Idli – Soft, plate-sized steamed rice cakes served with chutney and sambar.",
+            price: 45,
+            image:
+              "https://as2.ftcdn.net/jpg/02/95/02/23/1000_F_295022362_VaJRToqaT47SDSw78YXjW9WSq7SJLAvg.jpg",
+          },
+          
+            {
+            id: 10,
+            name: "Shavige Upittu",
+            description: "Sevige Upma – Light and fluffy vermicelli upma served with flavorful chutney.",
+            price: 45,
+            image:
+              "https://img.freepik.com/premium-photo/semiya-upma-vermicelli-uppuma-uppittu-is-popular-breakfast-menu-from-south-india-served-bowl-selective-focus_466689-52556.jpg",
+          },
+
         ],
         meals: [
           {
-            id: 9,
+            id: 11,
             name: "Full meals",
             description: "Complete meal with roti(or chapati), spiced bhaji, rice, sambar, chutney, and curd",
             price: 120,
             image:
               "https://img.freepik.com/premium-photo/indian-thali-food-plate-served-with-vegetables-rice-roti_960396-351006.jpg",
           },
+           
+          {
+            id: 12,
+            name: "Baleyele oota",
+            description: "Baleyele Oota – Traditional South Indian meal served on a banana leaf with chutney, kosambari, payasam, rice with saaru, holige, chitranna, bhaji/ambode, palya, and refreshing majjige.",
+            price: 300,
+            image:
+              "https://media.istockphoto.com/id/1131334347/photo/banana-leaf-rice.jpg?s=612x612&w=0&k=20&c=hg_f4RU_ZgTQ-Z3Y0FkNk041CN5l2z2-kQOivxRZdqc=",
+          },
+
+          {
+            id: 13,
+            name: "Jolada rotti oota",
+            description: "Jolad Rotti Oota – North Karnataka-style meal with jolad rotti, yengai palya, kalu palya, jhunka vadi, spicy chutney, rice, and sambar",
+            price: 150,
+            image:
+              "https://i.ytimg.com/vi/AeF7P2DmF7w/maxresdefault.jpg",
+          },
+
+           {
+            id: 14,
+            name: "North Indian meals",
+            description: "North Indian Meals – A wholesome platter with soft phulkas, paneer sabzi, jeera rice, and flavorful dal.",
+            price: 200,
+            image:
+              "https://res.cloudinary.com/hz3gmuqw6/image/upload/c_fill,q_auto,w_750/f_auto/North-Indian-food-phpUPkVj5",
+          },
+
+          {
+            id: 15,
+            name: "Bisibelebath and Curd rice",
+            description: "Bisi Bele Bath – A hearty, spicy rice-lentil dish served with crunchy khara boondi and soothing curd rice.",
+            price:90,
+            image:
+              "https://www.spiceupthecurry.com/wp-content/uploads/2018/02/bisi-bele-bath-recipe-1-480x270.jpg",
+          },
+
+           {
+            id: 16,
+            name: "Fried rice",
+            description: "Fried Rice – Flavorful stir-fried rice tossed with vegetables and aromatic spices.",
+            price:60,
+            image:
+              "https://t4.ftcdn.net/jpg/07/17/44/89/360_F_717448989_HWlaGedVcxvHf4gQA7SJT28jqD9L21my.jpg",
+          },
+
         ],
         snacks: [
           
           {
-            id: 10,
+            id: 17,
             name: "Pav Bhaji",
             description: "Buttery buns served with spicy mashed vegetable curry",
             price: 60,
@@ -360,7 +425,7 @@ const dishData = {
           },
 
           {
-            id: 11,
+            id: 18,
             name: "Onion Pakoda",
             description: "Crispy fritters made from sliced onions and gram flour served with chutney",
             price: 40,
@@ -369,7 +434,7 @@ const dishData = {
           },
 
           {
-            id: 12,
+            id: 19,
             name: "Bonda Soup",
             description: "Soft lentil fritters served in a lightly spiced moong dal soup",
             price: 50,
@@ -378,7 +443,7 @@ const dishData = {
           },
 
           {
-            id: 13,
+            id: 20,
             name: "Mirchi",
             description: "Deep-fried green chilies stuffed with spiced filling, coated in gram flour batter",
             price: 50,
@@ -387,7 +452,7 @@ const dishData = {
           },
 
           {
-            id: 14,
+            id: 21,
             name: "Girmit",
             description: "Spicy puffed rice mix tossed with onions, tomatoes, and tamarind",
             price: 45,
@@ -396,7 +461,7 @@ const dishData = {
           },
 
           {
-            id: 15,
+            id: 22,
             name: "Sabudana Vada",
             description: "Crispy sago and potato patties, mildly spiced and deep-fried",
             price: 40,
@@ -405,7 +470,7 @@ const dishData = {
           },
 
           {
-            id: 16,
+            id: 23,
             name: "Samosa",
             description: "Crispy pastry filled with spiced potato and peas",
             price: 65,
