@@ -1,33 +1,288 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Welcome</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    
-    <% if (success && success.length > 0) { %>
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
-    <%= success[0] %>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-<% } %>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kulkarni Foods - Delicious Meals at Your Fingertips</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6B35',
+                        secondary: '#1E3A8A'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="/stylesheets/index.css">
+</head>
+<body class="bg-white">
+    <header class="fixed top-0 w-full bg-secondary shadow-lg z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-['Pacifico'] text-primary">Kulkarni Foods</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/login">
+                      <button class="btn-hover bg-transparent border-2 border-primary text-primary px-4 py-1.5 !rounded-button text-sm font-semibold whitespace-nowrap">
+                        Login
+                    </button>
+                    </a>
+                    <a href="/signup">
+                      <button class="btn-hover bg-primary text-white px-4 py-1.5 !rounded-button text-sm font-semibold whitespace-nowrap">
+                        Sign Up
+                    </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="hero-bg relative min-h-screen flex items-center">
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="text-center text-white">
+                <h2 class="text-5xl md:text-6xl font-bold mb-6">Delicious Meals at Your Fingertips</h2>
+                <p class="text-xl md:text-2xl mb-8 text-gray-200">Order tiffins, meals, and snacks fresh to your door</p>
+                <button id="explore-menu" class="btn-hover bg-primary text-white px-8 py-4 text-lg font-semibold !rounded-button whitespace-nowrap">
+                    Explore Menu
+                </button>
+                <br> <br>
+                <div
+            class="bg-white bg-opacity-20 backdrop-blur-sm p-4 rounded-lg inline-block"
+          >
+            <p id="note-box"class="text-white text-sm flex items-center">
+              <i class="ri-time-line mr-2"></i>
+              Please note: All orders must be placed <p id="note">at least one day in advance</p>
+            </p>
+          </div>
 
+            </div>
+        </div>
+        <div class="absolute top-20 left-10 floating-icon">
+            <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white text-2xl">
+                <i class="ri-cake-3-line"></i>
+            </div>
+        </div>
+        <div class="absolute top-40 right-10 floating-icon">
+            <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-white text-xl">
+                <i class="ri-cup-line"></i>
+            </div>
+        </div>
+        <div class="absolute bottom-20 left-1/4 floating-icon">
+            <div class="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center text-white text-xl">
+                <i class="ri-restaurant-line"></i>
+            </div>
+        </div>
+    </section>
 
- 
-  
+    <section id="menu-preview" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold text-gray-900 mb-4">Featured Dishes</h3>
+                <p class="text-xl text-gray-600">Taste the authentic flavors of India</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="menu-card bg-white rounded-lg overflow-hidden cursor-pointer">
+                    <div class="aspect-video">
+                        <img src="https://i0.wp.com/blog.food-filment.com/wp-content/uploads/2015/12/img_5911-2.jpg?fit=1200%2C800&ssl=1" 
+                             alt="Bonda Soup"class="w-full h-full object-cover object-top">
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">Bonda Soup</h4>
+                        <p class="text-gray-600 mb-4">Soft lentil fritters served in a lightly spiced moong dal soup</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-primary">₹50</span>
+                            <button class="bg-primary text-white px-4 py-2 !rounded-button font-semibold whitespace-nowrap">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="menu-card bg-white rounded-lg overflow-hidden cursor-pointer">
+                    <div class="aspect-video">
+                        <img src="https://t3.ftcdn.net/jpg/05/26/67/36/360_F_526673624_MWQkxo3etLNTQbyfJpeBhoRlF4jTOS8H.jpg" 
+                             alt="Pav Bhaji" class="w-full h-full object-cover object-top">
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">Pav Bhaji</h4>
+                        <p class="text-gray-600 mb-4">Buttery buns served with spicy mashed vegetable curry</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-primary">₹80</span>
+                            <button class="bg-primary text-white px-4 py-2 !rounded-button font-semibold whitespace-nowrap">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="menu-card card-hover bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer">
+                    <div class="aspect-video">
+                        <img src="https://www.spiceupthecurry.com/wp-content/uploads/2018/02/bisi-bele-bath-recipe-1-480x270.jpg" 
+                             alt="Bisibelebath and Curd rice" class="w-full h-full object-cover object-top">
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">Bisibelebath and Curd rice</h4>
+                        <p class="text-gray-600 mb-4">A hearty, spicy rice-lentil dish served with crunchy khara boondi and soothing curd rice.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-primary">₹90</span>
+                            <button class="bg-primary text-white px-4 py-2 !rounded-button font-semibold whitespace-nowrap">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
-  
-  </body>
-</html>
+                <div class="menu-card card-hover bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer">
+                    <div class="aspect-video">
+                        <img src="https://media.istockphoto.com/id/1131334347/photo/banana-leaf-rice.jpg?s=612x612&w=0&k=20&c=hg_f4RU_ZgTQ-Z3Y0FkNk041CN5l2z2-kQOivxRZdqc=" 
+                             alt="Baleyele oota" class="w-full h-full object-cover object-top">
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">Baleyele oota</h4>
+                        <p class="text-gray-600 mb-4">Traditional South Indian meal served on a banana leaf with chutney, kosambari, payasam, rice with saaru, holige, chitranna, bhaji/ambode, palya, and refreshing majjige.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-primary">₹300</span>
+                            <button class="bg-primary text-white px-4 py-2 !rounded-button font-semibold whitespace-nowrap">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold text-gray-900 mb-4">Why Choose Kulkarni Foods?</h3>
+                <p class="text-xl text-gray-600">Experience the best of Indian cuisine</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="text-center feature-card p-8 rounded-lg bg-white shadow-lg cursor-pointer">
+                    <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="ri-flashlight-line text-3xl text-white"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-gray-900 mb-4">Healthy Choices</h4>
+                    <p class="text-gray-600">Select from a wide range of wholesome meals made with care</p>
+                </div>
+                <div class="text-center feature-card p-8 rounded-lg bg-white shadow-lg cursor-pointer">
+                    <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="ri-restaurant-2-line text-3xl text-white"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-gray-900 mb-4">Authentic Taste</h4>
+                    <p class="text-gray-600">Traditional home-made recipes prepared by experienced chefs using authentic spices</p>
+                </div>
+                <div class="text-center feature-card p-8 rounded-lg bg-white shadow-lg cursor-pointer">
+                    <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="ri-wallet-3-line text-3xl text-white"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold text-gray-900 mb-4">Easy Payments</h4>
+                    <p class="text-gray-600">Multiple payment options including UPI, and cash on delivery</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-primary">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-4xl font-bold text-white mb-6">Join our community of food lovers today!</h3>
+            <p class="text-xl text-white mb-8 opacity-90">Start your culinary journey with authentic Indian flavors</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <a href="/signup">
+              
+                <button class="btn-hover bg-transparent border-2 border-white text-white px-8 py-4 text-lg font-semibold !rounded-button whitespace-nowrap">
+                    Sign Up Now
+                </button>
+
+              </a>
+            
+                
+                <button id="browse-menu" class="btn-hover bg-transparent border-2 border-white text-white px-8 py-4 text-lg font-semibold !rounded-button whitespace-nowrap">
+                    Browse Menu
+                </button>
+            </div>
+            <br>
+            <div
+          class="bg-black bg-opacity-20 backdrop-blur-sm p-4 rounded-lg inline-block"
+        >
+          <p class="text-white text-sm flex items-center"> 
+            <i class="ri-time-line mr-2"></i>
+            Please note: All orders must be placed at least ONE day in advance
+          </p>
+          
+        </div>
+        </div>
+    </section>
+
+    <footer class="bg-secondary text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-2xl font-['Pacifico'] text-primary mb-4">Kulkarni Foods</h4>
+                    <p class="text-gray-300">Bringing authentic Indian flavors to your doorstep with love and care.</p>
+                </div>
+                <div>
+                    <h5 class="text-lg font-semibold mb-4">Contact Info</h5>
+                    <div class="space-y-2 text-gray-300">
+                        <p>📞 +91 85539 70096</p>
+                        <p>📍 Dharwad, Karnataka</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Kulkarni Foods. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 modal-overlay hidden z-50 flex items-center justify-center">
+        <div class="modal-content bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">Join to Continue</h3>
+                <button id="close-modal" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700">
+                    <i class="ri-close-line text-xl"></i>
+                </button>
+            </div>
+            <p class="text-gray-600 mb-8">Login or sign up to place your order and enjoy delicious meals</p>
+            <div class="space-y-4">
+                <a href="/login">
+                  <button class="w-full bg-primary text-white py-3 !rounded-button font-semibold text-lg whitespace-nowrap btn-hover">
+                    Login
+                </button>
+                </a>
+                <br><br>
+                <a href="/signup">
+                  <button class="w-full bg-transparent border-2 border-primary text-primary py-3 !rounded-button font-semibold text-lg whitespace-nowrap btn-hover">
+                    Sign Up
+                </button>
+                </a>
+               
+            </div>
+        </div>
+    </div>
+
+    <script src="/javascripts/index.js"></script>
+</body>
+</html> 

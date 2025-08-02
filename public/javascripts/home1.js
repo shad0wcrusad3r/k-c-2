@@ -370,7 +370,7 @@ const dishData = {
           {
             id: 12,
             name: "Baleyele oota",
-            description: "Baleyele Oota – Traditional South Indian meal served on a banana leaf with chutney, kosambari, payasam, rice with saaru, holige, chitranna, bhaji/ambode, palya, and refreshing majjige.",
+            description: "Traditional South Indian meal served on a banana leaf with chutney, kosambari, payasam, rice with saaru, holige, chitranna, bhaji/ambode, palya, and refreshing majjige.",
             price: 300,
             image:
               "https://media.istockphoto.com/id/1131334347/photo/banana-leaf-rice.jpg?s=612x612&w=0&k=20&c=hg_f4RU_ZgTQ-Z3Y0FkNk041CN5l2z2-kQOivxRZdqc=",
@@ -397,7 +397,7 @@ const dishData = {
           {
             id: 15,
             name: "Bisibelebath and Curd rice",
-            description: "Bisi Bele Bath – A hearty, spicy rice-lentil dish served with crunchy khara boondi and soothing curd rice.",
+            description: "A hearty, spicy rice-lentil dish served with crunchy khara boondi and soothing curd rice.",
             price:90,
             image:
               "https://www.spiceupthecurry.com/wp-content/uploads/2018/02/bisi-bele-bath-recipe-1-480x270.jpg",
@@ -419,7 +419,7 @@ const dishData = {
             id: 17,
             name: "Pav Bhaji",
             description: "Buttery buns served with spicy mashed vegetable curry",
-            price: 60,
+            price: 80,
             image:
               "https://t3.ftcdn.net/jpg/05/26/67/36/360_F_526673624_MWQkxo3etLNTQbyfJpeBhoRlF4jTOS8H.jpg",
           },

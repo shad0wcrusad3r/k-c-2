@@ -13,6 +13,9 @@ const orderSchema = new mongoose.Schema({
   items: [orderItemSchema],
   totalAmount: Number,
   paymentMethod: { type: String, enum: ['cod', 'upi'], required: true },
+  cookingRequest: { type: String, default: "" },
+  orderDate: { type: String, required: true },
+
   status: { type: String, default: 'Pending' }, // Pending, Confirmed, Delivered, Rejected
   clientResponse: { type: String, default: 'Pending' }, // Pending, Accepted, Rejected
   createdAt: { type: Date, default: Date.now }

@@ -140,6 +140,14 @@ if (!locationVerified) {
   loadingOverlay.classList.remove("hidden");
 
   const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+  const cookingRequest = document.getElementById("cookingRequest").value.trim();
+  const orderDate = document.getElementById("orderDate").value.trim();
+
+  if (!orderDate) {
+  alert("Please enter the Order Date before confirming.");
+  return;
+}
+
 
 if (!paymentMethod) {
   alert("Please select a payment method.");
@@ -147,7 +155,9 @@ if (!paymentMethod) {
   return;
 }
 
-let body = { paymentMethod };
+let body = { paymentMethod, cookingRequest, orderDate };
+console.log("Payment method sent:", paymentMethod);
+console.log("Cooking Request:", cookingRequest, "Date:", orderDate);
 console.log("Payment method sent:", paymentMethod);
 
 
@@ -202,7 +212,16 @@ async function waitForClientResponse(orderId) {
 }
 
 
-  function continueShopping() {
+function showRejectModal() {
+  document.getElementById("rejectModal").classList.remove("hidden");
+}  
+
+function closeRejectModal() {
+  document.getElementById("rejectModal").classList.add("hidden");
+  window.location.href = "/home";
+}
+
+function continueShopping() {
     document.getElementById("successModal").classList.add("hidden");
     window.location.href = "/home";
   }

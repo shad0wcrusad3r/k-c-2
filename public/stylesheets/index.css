@@ -1,0 +1,106 @@
+:where([class^="ri-"])::before {
+            content: "\f3c2";
+        }
+        .floating-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+        .floating-icon:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        .floating-icon:nth-child(3) {
+            animation-delay: 1s;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .menu-card {
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            outline: none;
+        }
+        .menu-card:hover,
+        .menu-card:focus,
+        .menu-card.animate,
+        .menu-card:active {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            z-index: 1;
+        }
+        .menu-card:active {
+            transition: transform 0.1s ease;
+        }
+        .menu-card:focus {
+            outline: 2px solid #FF6B35;
+            outline-offset: 2px;
+        }
+
+        .feature-card {
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            outline: none;
+        }
+        .feature-card:hover,
+        .feature-card:focus,
+        .feature-card.animate,
+        .feature-card:active {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            z-index: 1;
+        }
+        .feature-card:active {
+            transition: transform 0.1s ease;
+        }
+        .feature-card:focus {
+            outline: 2px solid #FF6B35;
+            outline-offset: 2px;
+        }
+
+        .btn-hover {
+            transition: all 0.3s ease;
+        }
+        .btn-hover:hover,
+        .btn-hover:active {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255,107,53,0.3);
+        }
+        .btn-hover:active {
+            transition: transform 0.1s ease;
+        }
+        .modal-overlay {
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s ease;
+        }
+        #cart-notification {
+            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; }
+        }
+        .modal-content {
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .hero-bg {
+            background-image: url('https://i.pinimg.com/236x/b1/e0/e6/b1e0e69a718a0792b2ec904e12706bc7.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        #note-box{
+            font-size: 17px;
+        }
+        #note{
+            color:red;
+        }

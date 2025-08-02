@@ -22,7 +22,7 @@ function isLoggedIn(req,res,next){
 
 async function sendTelegram(chatId, message) {
   try {
-    const url = `https://api.telegram.org/bot8263399258:AAHYXW1Qs2O7wCOETrA3Rt0StToHrs_MWi0/sendMessage`;
+    const url = `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`;
     const res = await axios.post(url, {
       chat_id: chatId,
       text: message,
@@ -52,11 +52,15 @@ router.post('/confirm', isLoggedIn, async (req, res) => {
 
     const totalAmount = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+    const { paymentMethod, cookingRequest, orderDate } = req.body;
+
     const order = new Order({
       user: req.user._id,
       items: cart.items,
       totalAmount,
       paymentMethod: req.body.paymentMethod,
+      cookingRequest,
+      orderDate,
       status: 'Pending',
       clientResponse: 'Pending'
     });
@@ -71,18 +75,26 @@ Phone: ${user.phone}
 Address: ${user.address}
 Items:\n${cart.items.map(i => `${i.quantity}x ${i.name}`).join('\n')}
 Total: ₹${totalAmount}
-Payment: ${req.body.paymentMethod.toUpperCase()}`;
+Payment: ${req.body.paymentMethod.toUpperCase()}
+Cooking Request: ${cookingRequest || "None"}
+Date: ${orderDate}`;
 
-    const paymentMethod = req.body.paymentMethod;
+    
+
     if (!paymentMethod) {
       return res.json({ success: false, error: 'Payment method required' });
     }
+    
+if (!orderDate) {
+  return res.status(400).json({ success: false, error: "Order Date is required." });
+}
 
     console.log("Payment method received:", req.body.paymentMethod);
 
 
-    //const clientPhone = process.env.CLIENT_WHATSAPP_NUMBER;
+    
 await sendTelegram(process.env.CLIENT_TELEGRAM_CHAT_ID, msg);
+
     res.json({ success: true, orderId: order._id });
   } catch (err) {
     console.error(err);
