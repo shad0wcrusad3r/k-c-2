@@ -59,13 +59,13 @@ function updateQuantityDisplays() {
     const quantity = parseInt(display.textContent) || 0;
 
     const minusBtn = document.querySelector(
-      `.quantity-btn.minus[data-dish-id="${dishId}"]`
+      .quantity-btn.minus[data-dish-id="${dishId}"]
     );
     const plusBtn = document.querySelector(
-      `.quantity-btn.plus[data-dish-id="${dishId}"]`
+      .quantity-btn.plus[data-dish-id="${dishId}"]
     );
     const addBtn = document.querySelector(
-      `.add-to-cart-btn[data-dish-id="${dishId}"]`
+      .add-to-cart-btn[data-dish-id="${dishId}"]
     );
 
     if (minusBtn) {
@@ -94,7 +94,7 @@ function attachQuantityListeners() {
       const dishId = this.dataset.dishId;
       const isPlus = this.classList.contains("plus");
       const display = document.querySelector(
-        `.quantity-display[data-dish-id="${dishId}"]`
+        .quantity-display[data-dish-id="${dishId}"]
       );
       
       let currentQuantity = tempQuantities[dishId].quantity || 0;
@@ -116,7 +116,7 @@ function attachQuantityListeners() {
       if (!isPlus && isInCart) {
         // If minus is clicked and the item is in the cart, update the cart directly
         updateCart(dishId, dish.name, dish.price, dish.image, newQuantity);
-        showSnackbar(`Removed 1 ${dish.name} from cart`);
+        showSnackbar(Removed 1 ${dish.name} from cart);
       }
 
       // Update button states
@@ -138,7 +138,7 @@ function attachQuantityListeners() {
       const success = await updateCart(dishId, dish.name, dish.price, dish.image, quantity);
 
       if (success) {
-        showSnackbar(`${quantity} ${dish.name}(s) added to cart`);
+        showSnackbar(${quantity} ${dish.name}(s) added to cart);
         tempQuantities[dishId].isInCart = true;
         updateQuantityDisplays();
       }
@@ -356,10 +356,28 @@ const dishData = {
               "https://img.freepik.com/premium-photo/semiya-upma-vermicelli-uppuma-uppittu-is-popular-breakfast-menu-from-south-india-served-bowl-selective-focus_466689-52556.jpg",
           },
 
+            {
+            id: 11,
+            name: "Plane Shira",
+            description: "Sweet semolina dessert flavored with ghee, cardamom, and garnished with nuts.",
+            price: 35,
+            image:
+              "https://as2.ftcdn.net/v2/jpg/05/36/52/03/1000_F_536520382_ewDjdnmRgngxKNCmaNoF4z2hFRVL41hp.jpg",
+          },
+
+          {
+            id: 12,
+            name: "Pineapple Shira",
+            description: " Rich and fragrant semolina dessert infused with pineapple chunks and ghee-roasted nuts.",
+            price: 40,
+            image:
+              "https://img.freepik.com/premium-photo/pineapple-sheera-halwa-also-known-as-ananas-keshri-shira-popular-south-indian-dessert-recipe-selective-focus_466689-42174.jpg",
+          },
+
         ],
         meals: [
           {
-            id: 11,
+            id: 13,
             name: "Full meals",
             description: "Complete meal with roti(or chapati), spiced bhaji, rice, sambar, chutney, and curd",
             price: 120,
@@ -368,7 +386,7 @@ const dishData = {
           },
            
           {
-            id: 12,
+            id: 14,
             name: "Baleyele oota",
             description: "Traditional South Indian meal served on a banana leaf with chutney, kosambari, payasam, rice with saaru, holige, chitranna, bhaji/ambode, palya, and refreshing majjige.",
             price: 300,
@@ -377,7 +395,7 @@ const dishData = {
           },
 
           {
-            id: 13,
+            id: 15,
             name: "Jolada rotti oota",
             description: "Jolad Rotti Oota – North Karnataka-style meal with jolad rotti, yengai palya, kalu palya, jhunka vadi, spicy chutney, rice, and sambar",
             price: 150,
@@ -386,16 +404,16 @@ const dishData = {
           },
 
            {
-            id: 14,
+            id: 16,
             name: "North Indian meals",
-            description: "North Indian Meals – A wholesome platter with soft phulkas, paneer sabzi, jeera rice, and flavorful dal.",
+            description: " A wholesome platter with soft phulkas, paneer sabzi, jeera rice, and flavorful dal.",
             price: 200,
             image:
               "https://res.cloudinary.com/hz3gmuqw6/image/upload/c_fill,q_auto,w_750/f_auto/North-Indian-food-phpUPkVj5",
           },
 
           {
-            id: 15,
+            id: 17,
             name: "Bisibelebath and Curd rice",
             description: "A hearty, spicy rice-lentil dish served with crunchy khara boondi and soothing curd rice.",
             price:90,
@@ -404,19 +422,38 @@ const dishData = {
           },
 
            {
-            id: 16,
+            id: 18,
             name: "Fried rice",
-            description: "Fried Rice – Flavorful stir-fried rice tossed with vegetables and aromatic spices.",
+            description: "Flavorful stir-fried rice tossed with vegetables and aromatic spices.",
             price:60,
             image:
               "https://t4.ftcdn.net/jpg/07/17/44/89/360_F_717448989_HWlaGedVcxvHf4gQA7SJT28jqD9L21my.jpg",
           },
 
+          {
+            id: 19,
+            name: "Pongal",
+            description: "Creamy South Indian rice and moong dal dish seasoned with ghee, pepper, and cashews.",
+            price:60,
+            image:
+              "https://t3.ftcdn.net/jpg/11/77/67/32/360_F_1177673270_xeT7eJwTwpdTUKhU7TFlChQRciKMtQT7.jpg",
+          },
+
+          {
+            id: 20,
+            name: "Jeera rice with daal",
+            description: " Fragrant cumin-flavored rice served with warm and spiced dal.",
+            price:70,
+            image:
+              "https://media.istockphoto.com/id/1265653380/photo/indian-traditional-food-mung-dal-tadka-curry-with-jeera-rice.jpg?s=612x612&w=0&k=20&c=3NcU9wm6DbgoLns8bRD7fCGOFRqr5dO_gRQdJM3YirY=",
+          },
+
+
         ],
         snacks: [
           
           {
-            id: 17,
+            id: 21,
             name: "Pav Bhaji",
             description: "Buttery buns served with spicy mashed vegetable curry",
             price: 80,
@@ -425,7 +462,7 @@ const dishData = {
           },
 
           {
-            id: 18,
+            id: 22,
             name: "Onion Pakoda",
             description: "Crispy fritters made from sliced onions and gram flour served with chutney",
             price: 40,
@@ -434,7 +471,7 @@ const dishData = {
           },
 
           {
-            id: 19,
+            id: 23,
             name: "Bonda Soup",
             description: "Soft lentil fritters served in a lightly spiced moong dal soup",
             price: 50,
@@ -443,7 +480,7 @@ const dishData = {
           },
 
           {
-            id: 20,
+            id: 24,
             name: "Mirchi",
             description: "Deep-fried green chilies stuffed with spiced filling, coated in gram flour batter",
             price: 50,
@@ -452,7 +489,7 @@ const dishData = {
           },
 
           {
-            id: 21,
+            id: 25,
             name: "Girmit",
             description: "Spicy puffed rice mix tossed with onions, tomatoes, and tamarind",
             price: 45,
@@ -461,7 +498,7 @@ const dishData = {
           },
 
           {
-            id: 22,
+            id: 26,
             name: "Sabudana Vada",
             description: "Crispy sago and potato patties, mildly spiced and deep-fried",
             price: 40,
@@ -470,13 +507,31 @@ const dishData = {
           },
 
           {
-            id: 23,
+            id: 27,
             name: "Samosa",
             description: "Crispy pastry filled with spiced potato and peas",
             price: 65,
             image:
               "https://t4.ftcdn.net/jpg/15/15/56/93/360_F_1515569353_OLObh6cpKVZ6hNmuZdvlU298U2XpBCaE.jpg",
           },
+          {
+            id: 28,
+            name: "Misal pav",
+            description: "Spicy sprouted curry topped with farsan, onions, and lemon, served with soft pav.",
+            price: 75,
+            image:
+              "https://t4.ftcdn.net/jpg/08/45/66/41/360_F_845664148_xd3D705vLEYhTXZpNU9YlQ2V1HrQ7PBu.jpg",
+          },
+
+            {
+            id: 29,
+            name: "aalu bonda with chutney",
+            description: "Deep-fried snack with a spicy mashed potato filling encased in a crispy gram flour batter served with chutney.",
+            price:40,
+            image:
+              "https://as1.ftcdn.net/jpg/01/15/66/10/1000_F_115661056_yWvwLXrdjhhcW8n2JCIdR4jBOzIMTYkI.jpg",
+          },
+
         ],
 };
 
@@ -519,7 +574,7 @@ const dishGrid = document.getElementById("dish-grid");
         isInCart: false
       };
     }
-    const display = document.querySelector(`.quantity-display[data-dish-id="${dish.id}"]`);
+    const display = document.querySelector(.quantity-display[data-dish-id="${dish.id}"]);
     if (display) {
       display.textContent = tempQuantities[dish.id].quantity;
       display.dataset.isInCart = tempQuantities[dish.id].isInCart;
