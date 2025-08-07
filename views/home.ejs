@@ -71,15 +71,26 @@
     >
       <div class="p-6">
         <!-- User Avatar -->
+        <a href='/profile' data-nav="profile">
         <div class="flex items-center mb-8 pt-4">
+          
+
+            <% if (profilePicture) { %>
+            <img src="<%= profilePicture %>" alt="Profile Picture" class="w-12 h-12 rounded-full shadow-sm object-cover">
+          <% } else { %>
           <div class="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full shadow-sm">
-  <i class="ri-user-line text-gray-700 text-2xl"></i>
-</div>
+          <i class="ri-user-line text-gray-700 text-2xl"></i>
+          </div>
+          <% } %>
           <div class="ml-3">
             <p class="font-semibold text-gray-800"><%= username %></p>
             <p class="text-sm text-gray-500"><%= phone %></p>
           </div>
+
+         
         </div>
+
+        </a>
         <!-- Menu Sections -->
         <div class="space-y-4 mb-8">
           <h3
@@ -225,7 +236,16 @@
     >
       <span id="snackbar-text">Added to cart</span>
     </div>
+        <!-- <script id="menu-functionality">
     
+        </script> -->
+
+    <!-- <script id="category-drawer-functionality">
+      
+    </script> -->
+    <!-- <script id="dish-management">
+      
+    </script> -->
     <script src="/javascripts/home1.js"></script>
   </body>
 </html>

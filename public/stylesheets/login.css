@@ -1,70 +1,57 @@
-/* Ensure body takes full height and centers content */
-
-
-*{
-    font-size:14px;
-    font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-style: normal;
-}
-
-h1{
-    font-family: 'Playfair Display', serif;
-    font-weight: bold;
-    font-size: 26.5px;
-    color: #b03a58;
-  }
-button{
-    font-size: 14px;
-    border: 2px solid #000;        /* uniform black border */
-    border-radius: 12px;           /* rounded corners */
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    background-color: #ABFAA9;
-}
-
-.signup-btn{
-  border: 2px solid #000;        /* uniform black border */
-  border-radius: 10px;           /* rounded corners */
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  background-color: skyblue;
+* {
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
-    background-color: #DFD5A5;
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* vertical center */
-  align-items: center;     /* horizontal center */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    font-family: 'Poppins', sans-serif;
 }
 
-.box {
-    
-  border: 1px solid #ccc; 
-  padding: 20px;
-  border-radius: 8px;
-   /* optional */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #FFCBDD;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* optional */
-  
-}
-.form form {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* centers everything horizontally */
-} 
-
-.signup{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.input-container {
+    position: relative;
 }
 
+.floating-label {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.2s ease;
+    pointer-events: none;
+    color: #808080;
+    font-size: 1rem;
+}
+
+.input-field:focus + .floating-label,
+.input-field:not(:placeholder-shown) + .floating-label {
+    top: 0;
+    font-size: 0.75rem;
+    color: #f97316;
+    background: #1f2937; /* Corresponds to bg-gray-800, adjust if your bg is different */
+    padding: 0 0.5rem;
+    transform: translateY(-50%);
+}
+
+.input-field {
+    background: transparent;
+    border: 2px solid #4b5563; /* Corresponds to border-gray-600 */
+    color: white;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.input-field:focus {
+    border-color: #f97316;
+    outline: none;
+}
+
+.rounded-button {
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.rounded-button:not(:disabled):active {
+    transform: scale(0.98);
+}

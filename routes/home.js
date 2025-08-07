@@ -26,7 +26,8 @@ router.get('/', isLoggedIn,async function(req, res, next) {
   res.render('home',{
     username: req.user.username,
     phone,
-    cartCount
+    cartCount,
+    profilePicture: req.user.profilePicture
   });
 });
 

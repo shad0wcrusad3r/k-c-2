@@ -69,13 +69,13 @@ function updateQuantityDisplays() {
     );
 
     if (minusBtn) {
-      const isInCart = display.dataset.isInCart === "true";
-      minusBtn.disabled = !isInCart || quantity <= 0;
+      minusBtn.disabled = quantity <= 0;
     }
     if (plusBtn) plusBtn.disabled = quantity >= 20;
     
+    //min qty rule
     if (addBtn) {
-      if (quantity > 0) {
+      if (quantity >= 8) {
         addBtn.disabled = false;
         addBtn.classList.remove("bg-gray-300", "text-gray-500");
         addBtn.classList.add("bg-primary", "text-white");
@@ -113,12 +113,35 @@ function attachQuantityListeners() {
 
       const isInCart = tempQuantities[dishId].isInCart;
 
+      //min qty rule
       if (!isPlus && isInCart) {
+        if (newQuantity < 8) {
+          newQuantity = 0;
+          updateCart(dishId, dish.name, dish.price, dish.image, newQuantity);
+          showSnackbar(`Can't place order for less than 8 plates of '${dish.name}'`);
+          tempQuantities[dishId].isInCart = false;
+        } else {
         // If minus is clicked and the item is in the cart, update the cart directly
         updateCart(dishId, dish.name, dish.price, dish.image, newQuantity);
-        showSnackbar(`Removed 1 ${dish.name} from cart`);
+        showSnackbar(`Removed 1 plate ${dish.name} from cart`);
+        }
+      } else if (isPlus && isInCart) {
+        // If plus is clicked and the item is in the cart, update the cart directly
+        updateCart(dishId, dish.name, dish.price, dish.image, newQuantity);
+        showSnackbar(`Added 1 more plate ${dish.name} to cart`);
       }
 
+      //min qty rule
+      // Show/hide minimum quantity message
+      const messageEl = document.querySelector(`.min-quantity-message[data-dish-id="${dishId}"]`);
+      if (messageEl) {
+        if (newQuantity > 0 && newQuantity < 8) {
+          messageEl.classList.remove('hidden');
+        } else {
+          messageEl.classList.add('hidden');
+        }
+      }
+      
       // Update button states
       updateQuantityDisplays();
     });
@@ -138,7 +161,7 @@ function attachQuantityListeners() {
       const success = await updateCart(dishId, dish.name, dish.price, dish.image, quantity);
 
       if (success) {
-        showSnackbar(`${quantity} ${dish.name}(s) added to cart`);
+        showSnackbar(`${quantity} plate of ${dish.name}(s) added to cart`);
         tempQuantities[dishId].isInCart = true;
         updateQuantityDisplays();
       }
@@ -566,6 +589,7 @@ const dishGrid = document.getElementById("dish-grid");
             Add to Cart
           </button>
         </div>
+        <p class="min-quantity-message text-xs text-red-500 mt-1 hidden" data-dish-id="${dish.id}"><br>Sorry, please add minimum 8 plates of the dish\n to place order</p>
       </div>
     </div>
   `).join("");

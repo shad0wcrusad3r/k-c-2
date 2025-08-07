@@ -1,47 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - Kulkarni Foods</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#f97316",
+              secondary: "#ef4444",
+            },
+          },
+        },
+      };
+    </script>
     <link rel="stylesheet" href="/stylesheets/signup.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-900 text-white min-h-screen">
+    <div class="pt-16 pb-8 px-4 min-h-screen">
+        <div class="max-w-md mx-auto">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-primary">Create Account</h1>
+                <p class="text-gray-400">Join Kulkarni Foods</p>
+            </div>
 
-    <div id="main">
-        <h1>Welcome to Kulkarni Catering</h1>
-        
-    </div>
-    <div class="box">
-        <div class="form">
-        <form action="/signup/register" method="post">
-            
-            <input type="text" name="username" placeholder="Enter username" required/>
-            <hr>
-            <input type="tel" name="phone" placeholder="Enter phone number" required/>
-            <hr>
-            <input type="password"  name="password" placeholder="Enter password"required/> <br> 
-            <input type="text"  name="address" placeholder="Enter address"required/> <br>
-            <button type="submit">Sign Up</button>
-        </form> 
+            <form action="/signup/register" method="post" class="space-y-6">
+                <div class="input-container">
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        class="input-field h-14 px-4 rounded-lg"
+                        placeholder=" "
+                        required
+                    />
+                    <label for="username" class="floating-label">Username</label>
+                </div>
+
+                <div class="input-container">
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        class="input-field h-14 px-4 rounded-lg"
+                        placeholder=" "
+                        required
+                    />
+                    <label for="phone" class="floating-label">Phone Number</label>
+                </div>
+
+                <div class="input-container">
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="input-field h-14 px-4 rounded-lg"
+                        placeholder=" "
+                        required
+                    />
+                    <label for="password" class="floating-label">Password</label>
+                </div>
+
+                <div class="input-container textarea-container">
+                    <textarea
+                        id="address"
+                        name="address"
+                        class="input-field px-4 py-3 rounded-lg"
+                        rows="3"
+                        placeholder=" "
+                        required
+                    ></textarea>
+                    <label for="address" class="floating-label">Address</label>
+                </div>
+
+                <div class="pt-4">
+                    <button
+                        type="submit"
+                        class="w-full h-12 bg-primary text-white rounded-button font-semibold"
+                    >
+                        Sign Up
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center mt-6">
+                <p class="text-gray-400">
+                    Already have an account?
+                    <a href="/login" class="font-semibold text-primary hover:underline">Log In</a>
+                </p>
+            </div>
         </div>
-            
-        
- 
-           
-    
-        <div class="login">
-            <p>Already have an account?</p>
-            <a href="./login">
-                <button class="login-btn">Go to login</button>
-            </a>
-        </div>
-
     </div>
-
-    <!-- <script src="login.js"></script> -->
 </body>
 </html>
