@@ -225,8 +225,12 @@ document.addEventListener("DOMContentLoaded", async function() {
   // Navigation links
   document.querySelectorAll(".nav-link").forEach(link => {
     link.addEventListener("click", function(e) {
-      e.preventDefault();
+
       const target = this.dataset.nav;
+
+      //If the link has no data-nav, skip all JS handling
+      if (!target) return;
+      e.preventDefault();
       closeMenu();
       
       setTimeout(() => {

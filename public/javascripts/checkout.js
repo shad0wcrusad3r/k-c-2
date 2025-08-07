@@ -130,34 +130,50 @@ function applyPricing(subtotal, deliveryFee, distance) {
 
   
   async function confirmOrder() {
+const cartItems = document.querySelectorAll("#cartItems > div");
+if (cartItems.length === 0) {
+  alert("Your cart is empty.");
+  return;
+}
 if (!locationVerified) {
     alert("Please enable location access to continue with your order.");
     updatePricing(); // try again
     return;
   }
 
-  const loadingOverlay = document.getElementById("loadingOverlay");
-  loadingOverlay.classList.remove("hidden");
-
-  const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
-  const cookingRequest = document.getElementById("cookingRequest").value.trim();
   const orderDate = document.getElementById("orderDate").value.trim();
 
   if (!orderDate) {
-  alert("Please enter the Order Date before confirming.");
-  return;
-}
+    alert("Please enter the Order Date before confirming.");
+    return;
+  }
+
+  const loadingOverlay = document.getElementById("loadingOverlay");
+  const backBtn = document.getElementById("backBtn");
+  const confirmBtn = document.getElementById("confirmBtn");
+
+  loadingOverlay.classList.remove("hidden");
+  backBtn.disabled = true;
+  confirmBtn.disabled = true;
+
+  const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+  const cookingRequest = document.getElementById("cookingRequest").value.trim();
 
 
-if (!paymentMethod) {
-  alert("Please select a payment method.");
-  loadingOverlay.classList.add("hidden");
-  return;
-}
+  if (!paymentMethod) {
+    alert("Please select a payment method.");
+    loadingOverlay.classList.add("hidden");
+    backBtn.disabled = false;
+    confirmBtn.disabled = false;
+    return;
+  }
 
-let body = { paymentMethod, cookingRequest, orderDate };
+  const date = new Date(orderDate);
+  const formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+
+let body = { paymentMethod, cookingRequest, orderDate: formattedDate };
 console.log("Payment method sent:", paymentMethod);
-console.log("Cooking Request:", cookingRequest, "Date:", orderDate);
+console.log("Cooking Request:", cookingRequest, "Date:", formattedDate);
 console.log("Payment method sent:", paymentMethod);
 
 
@@ -168,8 +184,6 @@ console.log("Payment method sent:", paymentMethod);
       body: JSON.stringify(body)
     });
     const data = await res.json();
-
-    loadingOverlay.classList.add("hidden");
 
     if (data.success) {
       waitForClientResponse(data.orderId); 
@@ -186,6 +200,7 @@ console.log("Payment method sent:", paymentMethod);
 async function waitForClientResponse(orderId) {
   const res = await fetch(`/checkout/status/${orderId}?_=${Date.now()}`);
   const loadingOverlay = document.getElementById("loadingOverlay");
+  const backBtn = document.getElementById("backBtn");
 
   const interval = setInterval(async () => {
     try {
@@ -198,15 +213,30 @@ async function waitForClientResponse(orderId) {
       if (data.clientResponse !== 'Pending') {
         clearInterval(interval);
         loadingOverlay.classList.add("hidden");
+        backBtn.disabled = false;
 
         if (data.clientResponse === 'Accepted') {
+          const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+          if (paymentMethod === 'upi') {
+            document.getElementById("upiPayBtn").style.display = "block";
+            document.getElementById("continueOrderingBtn").disabled = true;
+          }
           document.getElementById("successModal").classList.remove("hidden");
+
+          // Disable back and refresh
+          history.pushState(null, null, location.href);
+          window.onpopstate = function () {
+            history.go(1);
+          };
+          window.onbeforeunload = () => true;
+
         } else {
           showRejectModal();
         }
       }
     } catch (err) {
       console.error("Error polling:", err);
+      backBtn.disabled = false;
     }
   }, 3000); // check every 3s
 }
@@ -214,6 +244,8 @@ async function waitForClientResponse(orderId) {
 
 function showRejectModal() {
   document.getElementById("rejectModal").classList.remove("hidden");
+  const confirmBtn = document.getElementById("confirmBtn");
+  confirmBtn.disabled = false;
 }  
 
 function closeRejectModal() {
@@ -225,6 +257,15 @@ function continueShopping() {
     document.getElementById("successModal").classList.add("hidden");
     window.location.href = "/home";
   }
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    const continueBtn = document.getElementById("continueOrderingBtn");
+    if (continueBtn && continueBtn.disabled) {
+      continueBtn.disabled = false;
+    }
+  }
+});
 
   function goBack() {
     window.history.back();

@@ -25,7 +25,7 @@ router.post('/webhook', express.json(), async (req, res) => {
 
       // Respond to client in Telegram
       await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-        chat_id: chatId,
+        chat_id: 6623879588,
         text: action === "ACCEPT" ? "✅ Order Accepted" : "❌ Order Rejected"
       });
     }

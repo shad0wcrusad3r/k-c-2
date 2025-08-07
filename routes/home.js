@@ -50,5 +50,18 @@ router.get('/count', async (req, res) => {
   }
 });
 
+router.get('/logout', function(req, res) {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    req.flash('success', 'Successfully logged out.');
+    
+    // Destroy session & clear cookie
+    req.session.destroy(() => {
+      res.clearCookie('connect.sid'); // session cookie name
+      res.redirect('/login'); // redirect to login page
+    });
+  });
+});
+
 
 module.exports = router;

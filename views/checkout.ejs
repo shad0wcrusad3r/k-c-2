@@ -47,6 +47,7 @@
     <header class="fixed top-0 left-0 right-0 bg-gray-800 text-white z-50 h-14">
       <div class="flex items-center justify-between h-full px-4">
         <button
+        id="backBtn"
         class="w-6 h-6 flex items-center justify-center"
         onclick="window.location.href='/home'"
         >
@@ -87,15 +88,16 @@
       >
     
         <h3 class="font-medium text-gray-900 mb-4">Order Preferences</h3>
-        <div class="space-y-3">
-          
-         <div class="flex text-sm">
-  <textarea id="cookingRequest" rows="2" cols="35" placeholder="   Cooking Requests"></textarea>
-</div>
-<div>
-    <textarea id="orderDate" rows="2" cols="35" placeholder="   Delivery Date & Time"></textarea> <br> <br>
-  <p>(Must be atleast one day after placing the order)</p>
-</div>
+        <div class="space-y-4">
+          <div>
+            <label for="cookingRequest" class="block text-sm font-medium text-gray-700">Cooking Requests (optional)</label>
+            <textarea id="cookingRequest" name="cookingRequest" rows="2" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="e.g., less spicy"></textarea>
+          </div>
+          <div>
+            <label for="orderDate" class="block text-sm font-medium text-gray-700">Delivery Date & Time</label>
+            <input type="datetime-local" id="orderDate" name="orderDate" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+            <p class="mt-1 text-xs text-gray-500">(Must be atleast one day after placing the order)</p>
+          </div>
 
 
 
@@ -311,19 +313,6 @@
                   <p class="text-sm text-gray-600">Pay using UPI apps</p>
                 </div>
               </div>
-              <div
-                class="grid grid-cols-3 gap-3 mt-3"
-                id="upiOptions"
-                style="display: none;"
-              >
-                <button
-                  onclick="handleUPIPayment('upi')"
-                  class="flex items-center justify-center space-x-2 bg-gray-50 hover:bg-gray-100 py-2 px-3 rounded-button"
-                >
-                  <i class="ri-wallet-3-fill text-blue-500"></i>
-                  <span class="text-sm font-medium">UPI App</span>
-                </button>
-              </div>
             </div>
           </label>
         </div>
@@ -371,6 +360,15 @@
           Your order has been placed successfully. Thank you for ordering🙌
         </p>
         <button
+          id="upiPayBtn"
+          class="w-full bg-blue-500 text-white py-3 rounded-button font-medium !rounded-button whitespace-nowrap mb-4"
+          onclick="handleUPIPayment('upi')"
+          style="display: none;"
+        >
+          Pay with UPI
+        </button>
+        <button
+          id="continueOrderingBtn"
           class="w-full bg-primary text-white py-3 rounded-button font-medium !rounded-button whitespace-nowrap"
           onclick="continueShopping()"
         >
@@ -419,4 +417,3 @@
 
   </body>
 </html>
-
