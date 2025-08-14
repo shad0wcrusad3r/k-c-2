@@ -20,7 +20,7 @@ function isLoggedIn(req,res,next){
   res.redirect('/login');
 }
 
-async function sendTelegram(chatId, message) {
+async function sendTelegram(chatId, message, orderId) {
   try {
     const url = `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`;
     const res = await axios.post(url, {
@@ -28,8 +28,8 @@ async function sendTelegram(chatId, message) {
       text: message,
       reply_markup: {
         inline_keyboard: [
-          [{ text: "✅ Accept", callback_data: "ACCEPT" }],
-          [{ text: "❌ Reject", callback_data: "REJECT" }]
+          [{ text: "✅ Accept", callback_data: `ACCEPT_${orderId}` }],
+          [{ text: "❌ Reject", callback_data: `REJECT_${orderId}` }]
         ]
       }
     });
@@ -93,7 +93,7 @@ if (!orderDate) {
 
 
     
-await sendTelegram(process.env.CLIENT_TELEGRAM_CHAT_ID, msg);
+await sendTelegram(process.env.CLIENT_TELEGRAM_CHAT_ID, msg, order._id);
 
     res.json({ success: true, orderId: order._id });
   } catch (err) {

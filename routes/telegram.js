@@ -6,11 +6,12 @@ const axios = require('axios');
 router.post('/webhook', express.json(), async (req, res) => {
     console.log("RAW TELEGRAM:", JSON.stringify(req.body, null, 2));
   if (req.body.callback_query) {
-    const action = req.body.callback_query.data;
+    const callbackData = req.body.callback_query.data;
     const chatId = req.body.callback_query.message.chat.id;
 
-    // Find latest pending order
-    const order = await Order.findOne({ clientResponse: "Pending" }).sort({ createdAt: -1 });
+    const [action, orderId] = callbackData.split('_');
+
+    const order = await Order.findById(orderId).populate('user');
 
     if (order) {
       if (action === "ACCEPT") {
@@ -25,8 +26,8 @@ router.post('/webhook', express.json(), async (req, res) => {
 
       // Respond to client in Telegram
       await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-        chat_id: 6623879588,
-        text: action === "ACCEPT" ? "✅ Order Accepted" : "❌ Order Rejected"
+        chat_id: chatId,
+        text: action === "ACCEPT" ? `✅ Order for ${order.user.username} Accepted` : `❌ Order for ${order.user.username} Rejected`
       });
     }
   }
