@@ -53,10 +53,15 @@ function showSnackbar(message) {
   }, 1500);
 }
 
+function getMinQuantity(dishId) {
+  return dishId == 14 ? 8 : 10;
+}
+
 function updateQuantityDisplays() {
   document.querySelectorAll(".quantity-display").forEach((display) => {
     const dishId = display.dataset.dishId;
     const quantity = parseInt(display.textContent) || 0;
+    const minQuantity = getMinQuantity(dishId);
 
     const minusBtn = document.querySelector(
       `.quantity-btn.minus[data-dish-id="${dishId}"]`
@@ -75,7 +80,7 @@ function updateQuantityDisplays() {
     
     //min qty rule
     if (addBtn) {
-      if (quantity >= 8) {
+      if (quantity >= minQuantity) {
         addBtn.disabled = false;
         addBtn.classList.remove("bg-gray-300", "text-gray-500");
         addBtn.classList.add("bg-primary", "text-white");
@@ -112,13 +117,14 @@ function attachQuantityListeners() {
       const dish = dishData[category].find(d => d.id == dishId);
 
       const isInCart = tempQuantities[dishId].isInCart;
+      const minQuantity = getMinQuantity(dishId);
 
       //min qty rule
       if (!isPlus && isInCart) {
-        if (newQuantity < 8) {
+        if (newQuantity < minQuantity) {
           newQuantity = 0;
           updateCart(dishId, dish.name, dish.price, dish.image, newQuantity);
-          showSnackbar(`Can't place order for less than 8 plates of '${dish.name}'`);
+          showSnackbar(`Can't place order for less than ${minQuantity} plates of '${dish.name}'`);
           tempQuantities[dishId].isInCart = false;
         } else {
         // If minus is clicked and the item is in the cart, update the cart directly
@@ -135,7 +141,7 @@ function attachQuantityListeners() {
       // Show/hide minimum quantity message
       const messageEl = document.querySelector(`.min-quantity-message[data-dish-id="${dishId}"]`);
       if (messageEl) {
-        if (newQuantity > 0 && newQuantity < 8) {
+        if (newQuantity > 0 && newQuantity < minQuantity) {
           messageEl.classList.remove('hidden');
         } else {
           messageEl.classList.add('hidden');
@@ -589,13 +595,20 @@ const dishGrid = document.getElementById("dish-grid");
             Add to Cart
           </button>
         </div>
-        <p class="min-quantity-message text-xs text-red-500 mt-1 hidden" data-dish-id="${dish.id}"><br>Sorry, please add minimum 8 plates of the dish\n to place order</p>
+        <p class="min-quantity-message text-xs text-red-500 mt-1 hidden" data-dish-id="${dish.id}"></p>
       </div>
     </div>
   `).join("");
 
   // Initialize temp quantities
   dishes.forEach(dish => {
+    const minQuantity = getMinQuantity(dish.id);
+    const messageEl = document.querySelector(`.min-quantity-message[data-dish-id="${dish.id}"]`);
+    if (messageEl) {
+      messageEl.textContent = `Sorry, please add minimum ${minQuantity} plates of the dish to place order`;
+    }
+
+
     if (!tempQuantities[dish.id]) {
       tempQuantities[dish.id] = {
         quantity: 0,
